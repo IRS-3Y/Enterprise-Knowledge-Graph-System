@@ -24,9 +24,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build": "run-s build:app build:docker",
+    "build:app": "react-scripts build",
+    "build:docker": "copyfiles -f \"./docker/nginx/*\" ./build && docker build --tag=ekgs-frontend:dev build",
+    "docker:up": "docker-compose -p ekgs -f ./docker/compose.yml up -d",
+    "docker:down": "docker-compose -p ekgs -f ./docker/compose.yml down"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "copyfiles": "^2.2.0",
+    "npm-run-all": "^4.1.5"
   }
 }

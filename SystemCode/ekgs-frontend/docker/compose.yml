@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  frontend:
+    image: "ekgs-frontend:dev"
+    ports:
+      - "80:80"
