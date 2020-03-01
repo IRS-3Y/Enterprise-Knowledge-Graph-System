@@ -1,12 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import render from "@lib/material-dashboard-react";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import routes from "./routes";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import logo from "./assets/img/reactlogo.png";
+import image from "./assets/img/sidebar-4.jpg";
+
+import NavbarLinks from "./components/layout/NavbarLinks";
+
+render({
+  layout: "Admin",
+  sidebar: {
+    name: "EKGS",
+    logo, image
+  },
+  navbar: {
+    links: {
+      component: NavbarLinks
+    }
+  },
+  footer: {
+    name: "EKGS Team",
+    href: "https://github.com/IRS-3Y/Enterprise-Knowledge-Graph-System",
+    items: [{
+      name: "GitHub",
+      href: "https://github.com/IRS-3Y/Enterprise-Knowledge-Graph-System"
+    }]
+  },
+  routes
+});
