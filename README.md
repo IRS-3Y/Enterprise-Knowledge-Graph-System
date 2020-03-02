@@ -29,6 +29,39 @@
 
 `Refer to appendix <Installation & User Guide> in project report at Github Folder: ProjectReport`
 
+### Simple Version - Quick start with pre-built Docker image
+- Make sure [docker & docker-compose](https://docs.docker.com/install/) has been installed on local system.
+- Download [ekgs-compose.yml](https://github.com/IRS-3Y/Enterprise-Knowledge-Graph-System/blob/master/SystemCode/ekgs-compose.yml) to a local directory.
+- Open a command shell, goto the local directory where ekgs-compose.yml has been downloaded, and execute below command:
+```
+docker-compose -p ekgs -f ekgs-compose.yml up -d
+```
+EKGS application is now running and available on http://localhost.
+
+To shutdown the application, execute below command:
+```
+docker-compose -p ekgs -f ekgs-compose.yml down
+```
+
+### Developer Version - Build everything locally
+Make sure all developer tools have been installed:
+- Docker
+- Node.js
+- JDK 11
+- Apache Maven
+
+Clone this Git repository to local, goto SystemCode directory, and use below commands to build EKGS application:
+```
+# to build
+npm install && npm run build
+
+# to start application
+npm start
+
+# to shutdown application
+npm stop
+```
+
 ---
 
 ## SECTION 6 : PROJECT REPORT / PAPER
