@@ -5,3 +5,9 @@ services:
     image: "ekgs-frontend:dev"
     ports:
       - "80:80"
+    depends_on:
+      - backend
+  backend:
+    image: "ekgs-backend:dev"
+    ports:
+      - "9080:9080"
