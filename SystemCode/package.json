@@ -1,0 +1,21 @@
+{
+  "name": "ekgs",
+  "version": "0.1.0",
+  "description": "Enterprise Knowledge Graph System",
+  "private": true,
+  "dependencies": {},
+  "scripts": {
+    "postinstall": "run-s install:*",
+    "install:backend": "cd ./ekgs-backend && npm install",
+    "install:frontend": "cd ./ekgs-frontend && npm install",
+    "build": "run-s build:*",
+    "build:backend": "cd ./ekgs-backend && npm run build && docker tag ekgs-backend:dev irs3y/ekgs-backend:latest",
+    "build:frontend": "cd ./ekgs-frontend && npm run build && docker tag ekgs-frontend:dev irs3y/ekgs-frontend:latest",
+    "start": "docker-compose -p ekgs -f ./ekgs-compose.yml up -d",
+    "stop": "docker-compose -p ekgs -f ./ekgs-compose.yml down",
+    "sh:backend": "docker-compose -p ekgs -f ./ekgs-compose.yml exec backend sh -c \"[ -e /bin/bash ] && /bin/bash || /bin/sh\""
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  frontend:
+    image: "irs3y/ekgs-frontend"
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+  backend:
+    image: "irs3y/ekgs-backend"
+    ports:
+      - "9080:9080"
