@@ -15,7 +15,7 @@
 
 | Official Full Name  | Student ID (MTech Applicable)  | Work Items (Who Did What) | Email (Optional) |
 | :------------ |:---------------:| :-----| :-----|
-| Yu Yu | | | e0508596@u.nus.edu |
+| Yu Yu | A0213495A | | e0508596@u.nus.edu |
 | Yang Lu Yi | | | e0508578@u.nus.edu |
 | Yin TianShi | A0213511Y | | e0508612@u.nus.edu |
 
