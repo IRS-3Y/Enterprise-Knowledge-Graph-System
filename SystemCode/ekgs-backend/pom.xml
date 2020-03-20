@@ -18,6 +18,7 @@
 
   <properties>
     <java.version>11</java.version>
+    <kie.version>7.34.0.Final</kie.version>
   </properties>
 
   <dependencies>
@@ -34,6 +35,23 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <!-- KIE -->
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>${kie.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>${kie.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-decisiontables</artifactId>
+      <version>${kie.version}</version>
     </dependency>
   </dependencies>
 
