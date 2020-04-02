@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import { components } from '@lib/material-dashboard-react';
 import NeoVisGraph from '../components/visualization/NeoVisGraph';
 import ErrorBoundary from '../components/core/ErrorBoundary';
+import SearchBar from '../components/search/SearchBar';
 import { makeStyles } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
 const {Card, CardHeader, CardBody, CardFooter, Input} = components;
 
@@ -34,6 +36,12 @@ export default function Dashboard() {
   const subtitle = null;
   const color ="info";
   const [cypher, setCypher] = useState("MATCH(n)-[r]->(m) RETURN *");
+
+  const handleSearchResult = (result) => {
+    if(result){
+      setCypher(`match(n:Technology{longName:'${result.name}'})-[r]->(m) return *`);
+    }
+  }
   return (
     <Card className={classes.root}>
       <CardHeader color={color}>
@@ -41,9 +49,17 @@ export default function Dashboard() {
         {subtitle? <p className={classes.cardSubtitleWhite}>{subtitle}</p>: null}
       </CardHeader>
       <CardBody>
-        <ErrorBoundary>
-          <NeoVisGraph cypher={cypher}/>
-        </ErrorBoundary>
+        <Grid>
+          <Grid item>
+            <SearchBar onSearchResult={handleSearchResult}/>
+          </Grid>
+          <br/>
+          <Grid item>
+            <ErrorBoundary>
+              <NeoVisGraph cypher={cypher}/>
+            </ErrorBoundary>
+          </Grid>
+        </Grid>
       </CardBody>
       <CardFooter>
         <Input labelText="Query" 
