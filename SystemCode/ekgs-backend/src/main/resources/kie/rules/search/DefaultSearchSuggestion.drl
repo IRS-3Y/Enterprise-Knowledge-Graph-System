@@ -1,0 +1,15 @@
+package mtech.irs.ekgs.kie.rules.search
+
+import mtech.irs.ekgs.model.*
+
+rule "default search suggestion"
+activation-group "search-suggestion"
+salience 0
+when
+    SearchInput()
+    sr : SearchResults()
+then
+    sr.addSuggestion("360 degree scan ");
+    sr.addSuggestion("Relationship scan ");
+    sr.addSuggestion("End-to-end process scan ");
+end
