@@ -7,7 +7,7 @@ import NeoVisGraph from '../components/visualization/NeoVisGraph';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     height: "100vh"
   }
 }));
