@@ -7,6 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -14,7 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchBar from './components/search/SearchBar';
 import GraphView from './views/GraphView';
 
-const drawerWidth = 320;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: theme.palette.primary.dark,
   },
   drawerHeader: {
     display: 'flex',
@@ -74,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+  },
+  white: {
+    color: 'white'
   }
 }));
 
@@ -95,6 +101,20 @@ export default function App() {
       setCypher(`match(n:Technology{longName:'${result.name}'})-[r]->(m) return *`);
     }
   }
+
+  const logo = (
+    <Typography className={classes.white} variant="h6" noWrap>EKGS</Typography>
+  )
+  const toolbarMenu = (
+    <ButtonGroup variant="text">
+      <Button>
+        <Typography className={classes.white} variant="subtitle1" noWrap>File</Typography>
+      </Button>
+      <Button>
+        <Typography className={classes.white} variant="subtitle1" noWrap>Help</Typography>
+      </Button>
+    </ButtonGroup>
+  )
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -108,9 +128,8 @@ export default function App() {
             onClick={handleDrawerOpen}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            EKGS
-          </Typography>
+          {open? null: logo}
+          {open? toolbarMenu: null}
           <SearchBar onSearchResult={handleSearchResult}/>
         </Toolbar>
       </AppBar>
@@ -122,8 +141,9 @@ export default function App() {
           paper: classes.drawerPaper,
         }}>
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          {open? logo: null}
+          <IconButton className={classes.white} onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
           </IconButton>
         </div>
         <Divider />
