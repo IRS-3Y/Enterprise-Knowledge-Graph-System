@@ -1,20 +1,32 @@
 import React from 'react';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import parse from 'autosuggest-highlight/parse';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import SearchIcon from '@material-ui/icons/Search';
 import SearchService from '../../services/SearchService';
 
 const backend = new SearchService();
 
 const useStyles = makeStyles(theme => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
+  root: {
+    marginLeft: theme.spacing(2)
   },
+  searchInput: {
+    color: 'inherit',
+  },
+  searchTextField: {
+    width: '100%',
+    [theme.breakpoints.up('lg')]: {
+      width: 900,
+    },
+    backgroundColor: fade(theme.palette.common.white, 0.1),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.2),
+    },
+    borderRadius: theme.shape.borderRadius
+  }
 }));
 
 export default function SearchBar({onSearchResult}) {
@@ -40,42 +52,37 @@ export default function SearchBar({onSearchResult}) {
 
   return (
     <Autocomplete
-      style={{ width: '100%' }}
-      getOptionLabel={option => (typeof option === 'string' ? option : option.description)}
-      options={options}
+      className = {classes.root}
       autoComplete
+      freeSolo
       includeInputInList
-      renderInput={params => (
-        <TextField
-          {...params}
-          label="Search"
+      renderInput = {params => (
+        <TextField {...params}
+          classes={{
+            root: classes.searchTextField
+          }}
           variant="outlined"
-          fullWidth
+          placeholder="Search…"
+          InputProps={{
+            ...params.InputProps,
+            classes: {
+              root: classes.searchInput
+            },
+            startAdornment: (
+              <InputAdornment>
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
           onChange={handleChange}
         />
       )}
+      options={options}
+      getOptionLabel={option => (typeof option === 'string' ? option : option.description)}
       renderOption={option => {
-        // const matches = option.structured_formatting.main_text_matched_substrings;
-        // const parts = parse(
-        //   option.structured_formatting.main_text,
-        //   matches.map(match => [match.offset, match.offset + match.length]),
-        // );
-
         return (
           <Grid container alignItems="center">
-            {/* <Grid item>
-              <LocationOnIcon className={classes.icon} />
-            </Grid> */}
             <Grid item xs>
-              {/* {parts.map((part, index) => (
-                <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                  {part.text}
-                </span>
-              ))}
-
-              <Typography variant="body2" color="textSecondary">
-                {option.structured_formatting.secondary_text}
-              </Typography> */}
               <span>{option}</span>
             </Grid>
           </Grid>
