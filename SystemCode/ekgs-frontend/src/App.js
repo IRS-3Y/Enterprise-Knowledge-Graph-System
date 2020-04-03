@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchBar from './components/search/SearchBar';
+import GraphView from './views/GraphView';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,6 +19,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function App() {
   const classes = useStyles();
+
+  const [cypher, setCypher] = React.useState("");
+
+  const handleSearchResult = (result) => {
+    if(result){
+      setCypher(`match(n:Technology{longName:'${result.name}'})-[r]->(m) return *`);
+    }
+  }
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
@@ -28,9 +37,10 @@ export default function App() {
           <Typography variant="h6">
             EKGS
           </Typography>
-          <SearchBar onSearchResult={r => console.log(r)}/>
+          <SearchBar onSearchResult={handleSearchResult}/>
         </Toolbar>
       </AppBar>
+      <GraphView cypher={cypher}/>
     </div>
   );
 }
