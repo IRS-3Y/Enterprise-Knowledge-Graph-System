@@ -1,5 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
+import config from '../config';
 
 /**
  * Client service for calling backend search REST API
@@ -7,7 +8,7 @@ import _ from 'lodash';
  */
 export default class SearchService {
   constructor(){
-    this._baseUrl = "/backend/search";
+    this._baseUrl = `${config.backend.baseUrl}/search`;
   }
 
   search = async (input) => {
