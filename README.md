@@ -40,7 +40,7 @@ EKGS application is now running and available on http://localhost.
 
 To shutdown the application, execute below command:
 ```
-docker-compose -p ekgs -f ekgs-compose.yml down
+docker-compose -p ekgs -f ekgs-compose.yml down -v
 ```
 
 ### Developer Version - Build everything locally

@@ -35,7 +35,7 @@
     "build:app": "react-scripts build",
     "build:docker": "copyfiles -f \"./docker/nginx/*\" ./build && docker build --tag=ekgs-frontend:dev build",
     "docker:up": "docker-compose -p ekgs -f ./docker/compose.yml up -d",
-    "docker:down": "docker-compose -p ekgs -f ./docker/compose.yml down"
+    "docker:down": "docker-compose -p ekgs -f ./docker/compose.yml down -v"
   },
   "eslintConfig": {
     "extends": "react-app"

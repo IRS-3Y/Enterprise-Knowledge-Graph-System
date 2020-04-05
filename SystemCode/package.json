@@ -14,7 +14,7 @@
     "build:frontend": "cd ./ekgs-frontend && npm run build && docker tag ekgs-frontend:dev irs3y/ekgs-frontend:latest",
     "build:graphdata": "cd ./ekgs-graphdata && npm run build && docker tag ekgs-graphdata:dev irs3y/ekgs-graphdata:latest",
     "start": "docker-compose -p ekgs -f ./ekgs-compose.yml up -d",
-    "stop": "docker-compose -p ekgs -f ./ekgs-compose.yml down",
+    "stop": "docker-compose -p ekgs -f ./ekgs-compose.yml down -v",
     "sh:backend": "docker-compose -p ekgs -f ./ekgs-compose.yml exec backend sh -c \"[ -e /bin/bash ] && /bin/bash || /bin/sh\"",
     "sh:graphdata": "docker-compose -p ekgs -f ./ekgs-compose.yml exec graphdata sh -c \"[ -e /bin/bash ] && /bin/bash || /bin/sh\""
   },
