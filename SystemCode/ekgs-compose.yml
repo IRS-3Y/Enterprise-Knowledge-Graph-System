@@ -1,5 +1,11 @@
 version: '3'
 
+volumes:
+  neo4j_data:
+    external: false
+  neo4j_logs:
+    external: false
+
 services:
   frontend:
     image: "irs3y/ekgs-frontend"
@@ -11,3 +17,17 @@ services:
     image: "irs3y/ekgs-backend"
     ports:
       - "9080:9080"
+    depends_on:
+      - graphdata
+  graphdata:
+    image: "irs3y/ekgs-graphdata"
+    environment:
+      - "EXTENSION_SCRIPT=/ekgs/init.sh"
+      - "NEO4J_AUTH=none"
+      - "NEO4J_ACCEPT_LICENSE_AGREEMENT=yes"
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
