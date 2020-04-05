@@ -1,0 +1,10 @@
+{
+  "name": "ekgs-graphdata",
+  "version": "0.1.0",
+  "description": "Enterprise Knowledge Graph System (custom neo4j docker image)",
+  "private": true,
+  "dependencies": {},
+  "scripts": {
+    "build": "docker build --tag=ekgs-graphdata:dev ."
+  }
+}
