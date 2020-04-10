@@ -21,9 +21,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('lg')]: {
       width: 900,
     },
-    backgroundColor: fade(theme.palette.common.white, 0.1),
+    backgroundColor: fade(theme.palette.common.white, 0.05),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.2),
+      backgroundColor: fade(theme.palette.common.white, 0.1),
     },
     borderRadius: theme.shape.borderRadius
   }

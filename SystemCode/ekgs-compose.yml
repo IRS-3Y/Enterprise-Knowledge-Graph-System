@@ -16,7 +16,7 @@ services:
   backend:
     image: "irs3y/ekgs-backend"
     ports:
-      - "9080:9080"
+      - "9180:9080"
     depends_on:
       - graphdata
   graphdata:

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
-import NeoVis, {NEOVIS_DEFAULT_CONFIG} from 'neovis.js/dist/neovis.js';
-import config from '../../config';
+import NeoVis from 'neovis.js/dist/neovis.js';
+import { neovis as defaultConfig } from '../../config';
 
 const useStyles = makeStyles(theme => ({
   NeoVisGraph: {
@@ -11,21 +11,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function NeoVisGraph({cypher}) {
+export default function NeoVisGraph({config = {}, cypher = ""}) {
   useEffect(() => {
     new NeoVis({
+      ...defaultConfig,
+      ...config,
       container_id: "viz",
-      server_url: config.graph.serverUrl,
-      labels: {
-        [NEOVIS_DEFAULT_CONFIG]: {
-          caption: "name"
-        }
-      },
-      relationships: {
-        [NEOVIS_DEFAULT_CONFIG]: {
-          caption: false
-        }
-      },
       initial_cypher: cypher
     })
     .render();

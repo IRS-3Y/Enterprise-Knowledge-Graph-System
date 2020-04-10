@@ -1,11 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -15,8 +18,16 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchBar from './components/search/SearchBar';
 import GraphView from './views/GraphView';
+import config from './config';
 
 const drawerWidth = 240;
+
+const darkTheme = createMuiTheme({
+  palette: {
+    type: "dark"
+  }
+});
+const defaultTheme = createMuiTheme();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,6 +91,10 @@ const useStyles = makeStyles((theme) => ({
   },
   white: {
     color: 'white'
+  },
+  graphSettings: {
+    color: 'white',
+    padding: theme.spacing(2,1)
   }
 }));
 
@@ -101,6 +116,19 @@ export default function App() {
       setCypher(`match(n:Technology{longName:'${result.name}'})-[r]->(m) return *`);
     }
   }
+  const [graphConfig, setGraphConfig] = React.useState(config.graph);
+  const handleNodeLabelChange = (e) => {
+    setGraphConfig({
+      ...graphConfig,
+      nodeCaption: e.target.value
+    })
+  }
+  const handleRelationshipLabelChange = (e) => {
+    setGraphConfig({
+      ...graphConfig,
+      relationshipCaption: e.target.value
+    })
+  }
 
   const logo = (
     <Typography className={classes.white} variant="h6" noWrap>EKGS</Typography>
@@ -116,42 +144,58 @@ export default function App() {
     </ButtonGroup>
   )
   return (
-    <div className={classes.root}>
+    <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar className={clsx(classes.appBar, {[classes.appBarShift]: open})}
-        position="fixed">
-        <Toolbar className={classes.toolbar}>
-          <IconButton className={clsx(classes.menuButton, open && classes.hide)}
-            aria-label="menu"
-            edge="start"
-            color="inherit"
-            onClick={handleDrawerOpen}>
-            <MenuIcon />
-          </IconButton>
-          {open? null: logo}
-          {open? toolbarMenu: null}
-          <SearchBar onSearchResult={handleSearchResult}/>
-        </Toolbar>
-      </AppBar>
-      <Drawer className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}>
-        <div className={classes.drawerHeader}>
-          {open? logo: null}
-          <IconButton className={classes.white} onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
-          </IconButton>
-        </div>
-        <Divider />
-      </Drawer>
-      <main className={clsx(classes.content, {[classes.contentShift]: open})}>
-        <div className={classes.drawerHeader} />
-        <GraphView cypher={cypher}/>
-      </main>
-    </div>
+      <div className={classes.root}>
+        <AppBar className={clsx(classes.appBar, {[classes.appBarShift]: open})}
+          position="fixed">
+          <Toolbar className={classes.toolbar}>
+            <IconButton className={clsx(classes.menuButton, open && classes.hide)}
+              aria-label="menu"
+              edge="start"
+              color="inherit"
+              onClick={handleDrawerOpen}>
+              <MenuIcon />
+            </IconButton>
+            {open? null: logo}
+            {open? toolbarMenu: null}
+            <SearchBar onSearchResult={handleSearchResult}/>
+          </Toolbar>
+        </AppBar>
+        <Drawer className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}>
+          <div className={classes.drawerHeader}>
+            {open? logo: null}
+            <IconButton className={classes.white} onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+            </IconButton>
+          </div>
+          <Divider />
+          <ThemeProvider theme={darkTheme}>
+            <div className={classes.graphSettings}>
+              <Typography variant="subtitle1" noWrap>Graph Settings</Typography>
+              <TextField label="Node Label" select variant="filled" margin="dense" fullWidth value={graphConfig.nodeCaption} onChange={handleNodeLabelChange}>
+                <MenuItem value="name">name</MenuItem>
+                <MenuItem value="longName">longName</MenuItem>
+                <MenuItem value="shortDescription">shortDescription</MenuItem>
+              </TextField>
+              <TextField label="Relationship Label" select variant="filled" margin="dense" fullWidth value={graphConfig.relationshipCaption} onChange={handleRelationshipLabelChange}>
+                <MenuItem value={true}>shown</MenuItem>
+                <MenuItem value={false}>hidden</MenuItem>
+              </TextField>
+            </div>
+          </ThemeProvider>
+        </Drawer>
+        <main className={clsx(classes.content, {[classes.contentShift]: open})}>
+          <div className={classes.drawerHeader} />
+          <GraphView config={graphConfig} cypher={cypher}/>
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }
