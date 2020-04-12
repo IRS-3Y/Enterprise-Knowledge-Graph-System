@@ -7,11 +7,11 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import mtech.irs.ekgs.frameworx.model.Frameworx;
+import mtech.irs.ekgs.frameworx.model.FrameworxModel;
 import mtech.irs.ekgs.frameworx.model.FrameworxNode;
 
 @Repository
-public interface FrameworxRepository extends Neo4jRepository<Frameworx, Long>{
+public interface FrameworxRepository extends Neo4jRepository<FrameworxModel, Long>{
 
 	@Query(
 		"MATCH (n) WHERE $label in labels(n) " +

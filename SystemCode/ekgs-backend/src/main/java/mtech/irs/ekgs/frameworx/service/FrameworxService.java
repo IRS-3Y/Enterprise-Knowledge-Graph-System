@@ -10,4 +10,6 @@ public interface FrameworxService {
 	Iterable<Technology> findTechnologyAll();
 	
 	List<FrameworxNode> findNodes(String label);
+	
+	List<String> findNodeNames(String label);
 }

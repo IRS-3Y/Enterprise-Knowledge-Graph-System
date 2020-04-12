@@ -1,6 +1,7 @@
 package mtech.irs.ekgs.kie.rules.search
 
 import mtech.irs.ekgs.model.*
+import mtech.irs.ekgs.frameworx.*
 
 rule "node scan suggestion"
 activation-group "search-suggestion"
@@ -9,9 +10,27 @@ when
     SearchInput( value.startsWith("360 degree scan") )
     sr : SearchResults()
 then
-    sr.addSuggestion("360 degree scan for People");
-    sr.addSuggestion("360 degree scan for Process");
-    sr.addSuggestion("360 degree scan for Technology");
+    Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ");
+end
+
+rule "node scan suggestion for people"
+activation-group "search-suggestion"
+salience 20
+when
+    SearchInput( value.startsWith("360 degree scan for People") )
+    sr : SearchResults()
+then
+    Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ", "People");
+end
+
+rule "node scan suggestion for process"
+activation-group "search-suggestion"
+salience 20
+when
+    SearchInput( value.startsWith("360 degree scan for Process") )
+    sr : SearchResults()
+then
+    Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ", "Process");
 end
 
 rule "node scan suggestion for technology"
@@ -21,8 +40,5 @@ when
     SearchInput( value.startsWith("360 degree scan for Technology") )
     sr : SearchResults()
 then
-    sr.addSuggestion("360 degree scan for Technology Customer Order Management"); 
-    sr.addSuggestion("360 degree scan for Technology Customer Order Establishment");
-    sr.addSuggestion("360 degree scan for Technology Customer Order Lifecycle Management");
-    sr.addSuggestion("360 degree scan for Technology Customer Order Enrichment");
+    Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ", "Technology");
 end

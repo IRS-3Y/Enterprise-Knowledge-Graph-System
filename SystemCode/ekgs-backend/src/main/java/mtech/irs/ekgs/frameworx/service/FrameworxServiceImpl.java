@@ -1,6 +1,7 @@
 package mtech.irs.ekgs.frameworx.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,13 @@ public class FrameworxServiceImpl implements FrameworxService{
 	@Override
 	public List<FrameworxNode> findNodes(String label) {
 		return frameworxRepository.findNodeByLabel(label);
+	}
+
+	@Override
+	public List<String> findNodeNames(String label) {
+		return findNodes(label).stream()
+				.map(FrameworxNode::getLongName)
+				.collect(Collectors.toList());
 	}
 
 }

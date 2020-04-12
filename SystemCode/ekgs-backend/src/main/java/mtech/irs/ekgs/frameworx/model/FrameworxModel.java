@@ -1,5 +1,5 @@
 package mtech.irs.ekgs.frameworx.model;
 
-public interface Frameworx {
+public interface FrameworxModel {
 
 }
