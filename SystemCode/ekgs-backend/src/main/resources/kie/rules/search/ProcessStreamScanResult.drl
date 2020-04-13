@@ -1,0 +1,14 @@
+package mtech.irs.ekgs.kie.rules.search
+
+import mtech.irs.ekgs.model.*
+import mtech.irs.ekgs.frameworx.*
+
+rule "process stream scan result"
+activation-group "search-result"
+salience 10
+when
+    si : SearchInput( value != null && value.startsWith("End-to-end process scan") )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForProcessStreamScan(sr, si);
+end

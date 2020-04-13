@@ -20,6 +20,8 @@ abstract public class Frameworx {
 	
 	private static final String[] SEARCH_NODE_LABELS = new String[] {"People", "Process", "Technology"};
 	
+	private static final String[] SEARCH_PROCESS_STREAMS = new String[] {"Request_to_Answer"};
+	
 	private static final Logger logger = LoggerFactory.getLogger(Frameworx.class);
 	
 	private static FrameworxService service;
@@ -78,6 +80,29 @@ abstract public class Frameworx {
 	
 	public static String cypherForNodeScan(String label, String name) {
 		String cypher = "MATCH(n:" + label + "{longName:'" + name + "'})-[r]->(m) RETURN *";
+		logger.debug("Cypher: {}", cypher);
+		return cypher;
+	}
+	
+	public static void searchSuggestionForProcessStreamScan(SearchResults results, String prefix) {
+		Stream.of(SEARCH_PROCESS_STREAMS).forEach(l -> {
+			results.addSuggestion(prefix + l);
+		});
+	}
+	
+	public static void searchResultForProcessStreamScan(SearchResults results, SearchInput input) {
+		final String value = input.getValue();
+		String streamName = Stream.of(SEARCH_PROCESS_STREAMS)
+				.filter(l -> value.contains(l))
+				.findFirst()
+				.orElse(null);
+		if(streamName != null) {
+			results.addAction("view", Map.of("graph", cypherForProcessStreamScan(streamName)));
+		}
+	}
+	
+	public static String cypherForProcessStreamScan(String streamName) {
+		String cypher = "MATCH p=()-[r:" + streamName + "]->() RETURN p";
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
 	}
