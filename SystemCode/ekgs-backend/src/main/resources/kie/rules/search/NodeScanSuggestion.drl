@@ -7,7 +7,7 @@ rule "node scan suggestion"
 activation-group "search-suggestion"
 salience 10
 when
-    SearchInput( value.startsWith("360 degree scan") )
+    SearchInput( value != null && value.startsWith("360 degree scan") )
     sr : SearchResults()
 then
     Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ");
@@ -17,7 +17,7 @@ rule "node scan suggestion for people"
 activation-group "search-suggestion"
 salience 20
 when
-    SearchInput( value.startsWith("360 degree scan for People") )
+    SearchInput( value != null && value.startsWith("360 degree scan for People") )
     sr : SearchResults()
 then
     Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ", "People");
@@ -27,7 +27,7 @@ rule "node scan suggestion for process"
 activation-group "search-suggestion"
 salience 20
 when
-    SearchInput( value.startsWith("360 degree scan for Process") )
+    SearchInput( value != null && value.startsWith("360 degree scan for Process") )
     sr : SearchResults()
 then
     Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ", "Process");
@@ -37,7 +37,7 @@ rule "node scan suggestion for technology"
 activation-group "search-suggestion"
 salience 20
 when
-    SearchInput( value.startsWith("360 degree scan for Technology") )
+    SearchInput( value != null && value.startsWith("360 degree scan for Technology") )
     sr : SearchResults()
 then
     Frameworx.searchSuggestionForNodeScan(sr, "360 degree scan for ", "Technology");

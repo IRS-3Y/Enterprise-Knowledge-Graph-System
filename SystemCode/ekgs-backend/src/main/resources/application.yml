@@ -7,3 +7,7 @@ spring:
   data:
     neo4j:
       uri: bolt://localhost:7687
+      
+logging:
+  level:
+    mtech: DEBUG

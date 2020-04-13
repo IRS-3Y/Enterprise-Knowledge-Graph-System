@@ -112,8 +112,11 @@ export default function App() {
 
   const [cypher, setCypher] = React.useState("");
   const handleSearchResult = (result) => {
-    if(result){
-      setCypher(`match(n:Technology{longName:'${result.name}'})-[r]->(m) return *`);
+    if(result && result[0]){
+      const {name: action, params: {graph}} = result[0];
+      if(action === 'view'){
+        setCypher(graph);
+      }
     }
   }
   const [graphConfig, setGraphConfig] = React.useState(config.graph);

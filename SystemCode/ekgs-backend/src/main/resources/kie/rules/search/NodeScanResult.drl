@@ -1,0 +1,14 @@
+package mtech.irs.ekgs.kie.rules.search
+
+import mtech.irs.ekgs.model.*
+import mtech.irs.ekgs.frameworx.*
+
+rule "node scan result"
+activation-group "search-result"
+salience 10
+when
+    si : SearchInput( value != null && value.startsWith("360 degree scan") )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForNodeScan(sr, si);
+end

@@ -21,14 +21,9 @@ export default class SearchService {
     return resp.data;
   }
 
-  searchAction = async ({value}) => {
-    if(value){
-      const name = value.substring('360 degree scan for Technology '.length);
-      if(name){
-        return {name};
-      }
-    }
-    return null;
+  searchAction = async (input) => {
+    let data = await this.search(input);
+    return data.results.filter(r => r.type === 'action');
   }
   searchActionThrottled = _.throttle((input) => this.searchAction(input), 100);
 
