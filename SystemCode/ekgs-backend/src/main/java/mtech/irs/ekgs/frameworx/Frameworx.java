@@ -79,7 +79,11 @@ abstract public class Frameworx {
 	}
 	
 	public static String cypherForNodeScan(String label, String name) {
-		String cypher = "MATCH(n:" + label + "{longName:'" + name + "'})-[r]->(m) RETURN *";
+		String cypher = 
+				"MATCH(n:" + label + "{longName:'" + name + "'}) " + 
+				"CALL apoc.path.spanningTree(n, {minLevel: 1, maxLevel: 3}) " + 
+				"YIELD path " + 
+				"RETURN path";
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
 	}
