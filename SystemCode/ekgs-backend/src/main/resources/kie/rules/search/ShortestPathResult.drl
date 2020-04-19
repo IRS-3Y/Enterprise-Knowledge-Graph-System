@@ -1,0 +1,14 @@
+package mtech.irs.ekgs.kie.rules.search
+
+import mtech.irs.ekgs.model.*
+import mtech.irs.ekgs.frameworx.*
+
+rule "shortest path result"
+activation-group "search-result"
+salience 10
+when
+    si : SearchInput( value != null && value.startsWith("Recommend a solution fulfil Request-to-Answer") )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForShortestPath(sr, si);
+end

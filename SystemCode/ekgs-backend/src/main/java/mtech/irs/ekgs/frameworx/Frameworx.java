@@ -110,4 +110,23 @@ abstract public class Frameworx {
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
 	}
+	
+	public static void searchResultForShortestPath(SearchResults results, SearchInput input) {
+		final String value = input.getValue();
+		if(value.contains("time")) {
+			results.addAction("view", Map.of("graph", cypherForShortestPath("relationTime")));
+		}else if(value.contains("cost")) {
+			results.addAction("view", Map.of("graph", cypherForShortestPath("relationCost")));
+		}
+	}
+	
+	public static String cypherForShortestPath(String weightProperty) {
+		String cypher = 
+				"MATCH (start {name:'Customer1'}), (end {name:'CIR1'}) " + 
+				"CALL algo.shortestPath.stream(start, end, '" + weightProperty + "',{direction:'OUTGOING'}) " + 
+				"YIELD nodeId, cost " + 
+				"RETURN algo.asNode(nodeId)";
+		logger.debug("Cypher: {}", cypher);
+		return cypher;
+	}
 }

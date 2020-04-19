@@ -9,7 +9,8 @@ when
     SearchInput()
     sr : SearchResults()
 then
-    sr.addSuggestion("360 degree scan ");
-    sr.addSuggestion("Relationship scan ");
-    sr.addSuggestion("End-to-end process scan ");
+    sr.addSuggestion("360 degree scan");
+    sr.addSuggestion("Relationship scan");
+    sr.addSuggestion("End-to-end process scan");
+    sr.addSuggestion("Recommend a solution");
 end
