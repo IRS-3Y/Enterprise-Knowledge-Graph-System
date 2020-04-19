@@ -15,6 +15,8 @@ services:
       - backend
   backend:
     image: "ekgs-backend:dev"
+    environment:
+      - "spring_profiles_active=docker"
     ports:
       - "9180:9080"
     depends_on:
