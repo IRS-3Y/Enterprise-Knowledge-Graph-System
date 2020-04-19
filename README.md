@@ -36,7 +36,8 @@
 ```
 docker-compose -p ekgs -f ekgs-compose.yml up -d
 ```
-EKGS application is now running and available on http://localhost.
+EKGS application is now running and available on http://localhost. (or http://{DOCKER_HOST_IP} if Docker is hosted on a remote server,
+e.g. Docker Toolbox installs Docker on VirtualBox VM which uses the VM's IP)
 
 To shutdown the application, execute below command:
 ```
