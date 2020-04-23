@@ -119,12 +119,18 @@ export default function App() {
     setOpen(false);
   };
 
-  const [cypher, setCypher] = React.useState("");
+  const [info, setInfo] = React.useState({
+    cypher: "",
+    description: []
+  });
   const handleSearchResult = (result) => {
     if(result && result[0]){
-      const {name: action, params: {graph}} = result[0];
+      const {name: action, params: {graph, description = []}} = result[0];
       if(action === 'view'){
-        setCypher(graph);
+        setInfo({
+          cypher: graph,
+          description
+        })
       }
     }
   }
@@ -205,7 +211,7 @@ export default function App() {
         </Drawer>
         <main className={clsx(classes.content, {[classes.contentShift]: open})}>
           <div className={classes.drawerHeader} />
-          <GraphView config={graphConfig} cypher={cypher}/>
+          <GraphView config={graphConfig} {...info}/>
         </main>
       </div>
     </ThemeProvider>

@@ -1,5 +1,7 @@
 package mtech.irs.ekgs.frameworx;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -73,19 +75,27 @@ abstract public class Frameworx {
 				.filter(n -> n.equalsIgnoreCase(nodeName))
 				.findFirst()
 				.ifPresent(n -> {
-					results.addAction("view", Map.of("graph", cypherForNodeScan(label, n)));
+					results.addAction("view", Map.of(
+							"graph", cypherForNodeScan(label, n, 3),
+							"description", descForNodeScan(n, 3)));
 				});
 		}
 	}
 	
-	public static String cypherForNodeScan(String label, String name) {
+	public static String cypherForNodeScan(String label, String name, int depth) {
 		String cypher = 
 				"MATCH(n:" + label + "{longName:'" + name + "'}) " + 
-				"CALL apoc.path.spanningTree(n, {minLevel: 1, maxLevel: 3}) " + 
+				"CALL apoc.path.spanningTree(n, {minLevel: 1, maxLevel: " + depth + "}) " + 
 				"YIELD path " + 
 				"RETURN path";
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
+	}
+	
+	public static List<String> descForNodeScan(String name, int depth) {
+		return Arrays.asList(
+				"Please refer to the graph for the 360-degree scan for node (" + name + ") with depth limit " + depth + ".",
+				"If you wish to view more information about this node, please query again using a higher depth limit ranging from 1 to 3.");
 	}
 	
 	public static void searchSuggestionForProcessStreamScan(SearchResults results, String prefix) {
@@ -101,7 +111,9 @@ abstract public class Frameworx {
 				.findFirst()
 				.orElse(null);
 		if(streamName != null) {
-			results.addAction("view", Map.of("graph", cypherForProcessStreamScan(streamName)));
+			results.addAction("view", Map.of(
+					"graph", cypherForProcessStreamScan(streamName),
+					"description", descForProcessStreamScan(streamName)));
 		}
 	}
 	
@@ -109,6 +121,12 @@ abstract public class Frameworx {
 		String cypher = "MATCH p=()-[r:" + streamName + "]->() RETURN p";
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
+	}
+	
+	public static List<String> descForProcessStreamScan(String streamName) {
+		return Arrays.asList(
+				"Please refer to the graph for the end-to-end business process group Customer Centric end-to-end process.",
+				"If you wish to view certain sub-process in this graph, please use Relationship scan for that specific sub process within this process group.");
 	}
 	
 	public static void searchResultForShortestPath(SearchResults results, SearchInput input) {
