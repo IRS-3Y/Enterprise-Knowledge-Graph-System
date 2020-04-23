@@ -6,8 +6,7 @@ import { neovis as defaultConfig } from '../../config';
 const useStyles = makeStyles(theme => ({
   NeoVisGraph: {
     width: "100%",
-    height: "100vh",
-    font: "22pt arial"
+    height: "100vh"
   }
 }));
 
