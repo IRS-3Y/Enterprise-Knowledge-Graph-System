@@ -24,10 +24,19 @@ const drawerWidth = 240;
 
 const darkTheme = createMuiTheme({
   palette: {
+    primary: {
+      main: "#b8d6ff"
+    },
     type: "dark"
   }
 });
-const defaultTheme = createMuiTheme();
+const defaultTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#1b67cc"
+    }
+  }
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: "#185eba",
   },
   drawerHeader: {
     display: 'flex',
