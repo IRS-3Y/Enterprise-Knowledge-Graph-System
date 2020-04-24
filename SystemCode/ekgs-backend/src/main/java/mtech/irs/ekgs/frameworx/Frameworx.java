@@ -23,8 +23,6 @@ abstract public class Frameworx {
 	
 	private static final String[] SEARCH_NODE_LABELS = new String[] {"People", "Process", "Technology"};
 	
-	private static final String[] SEARCH_PROCESS_STREAMS = new String[] {"Request_to_Answer"};
-	
 	private static final Logger logger = LoggerFactory.getLogger(Frameworx.class);
 	
 	private static FrameworxService service;
@@ -34,6 +32,14 @@ abstract public class Frameworx {
 			service = AppContextUtils.getBean(FrameworxService.class);
 		}
 		return service;
+	}
+	
+	public static List<String> findNodeNames(String label){
+		return GraphUtils.findNodePropValues(label, "longName", null, false);
+	}
+	
+	public static List<String> findProcessStreams(){
+		return GraphUtils.findRelationPropValues(null, "processStream", ".+", true);
 	}
 	
 	/**
@@ -54,7 +60,7 @@ abstract public class Frameworx {
 	 * @param label
 	 */
 	public static void searchSuggestionForNodeScan(SearchResults results, String prefix, String label) {
-		service().findNodeNames(label).forEach(n -> {
+		findNodeNames(label).forEach(n -> {
 			results.addSuggestion(prefix + label + " " + n);
 		});
 	}
@@ -72,7 +78,7 @@ abstract public class Frameworx {
 				.orElse(null);
 		if(label != null) {
 			String nodeName = value.substring(value.indexOf(label) + label.length()).trim();
-			service().findNodeNames(label).stream()
+			findNodeNames(label).stream()
 				.filter(n -> n.equalsIgnoreCase(nodeName))
 				.findFirst()
 				.ifPresent(n -> {
@@ -133,14 +139,14 @@ abstract public class Frameworx {
 	}
 	
 	public static void searchSuggestionForProcessStreamScan(SearchResults results, String prefix) {
-		Stream.of(SEARCH_PROCESS_STREAMS).forEach(l -> {
+		findProcessStreams().forEach(l -> {
 			results.addSuggestion(prefix + l);
 		});
 	}
 	
 	public static void searchResultForProcessStreamScan(SearchResults results, SearchInput input) {
 		final String value = input.getValue();
-		String streamName = Stream.of(SEARCH_PROCESS_STREAMS)
+		String streamName = findProcessStreams().stream()
 				.filter(l -> value.contains(l))
 				.findFirst()
 				.orElse(null);
@@ -152,14 +158,14 @@ abstract public class Frameworx {
 	}
 	
 	public static String cypherForProcessStreamScan(String streamName) {
-		String cypher = "MATCH p=()-[r:" + streamName + "]->() RETURN p";
+		String cypher = "MATCH p=()-[r]->() WHERE trim(r.processStream) = '"+ streamName +"' RETURN p";
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
 	}
 	
 	public static List<String> descForProcessStreamScan(String streamName) {
 		return Arrays.asList(
-				"Please refer to the graph for the end-to-end business process group Customer Centric end-to-end process.",
+				"Please refer to the graph for the end-to-end business process group " + streamName + ".",
 				"If you wish to view certain sub-process in this graph, please use Relationship scan for that specific sub process within this process group.");
 	}
 	
