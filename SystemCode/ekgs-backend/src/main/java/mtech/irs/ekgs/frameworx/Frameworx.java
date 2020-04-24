@@ -12,6 +12,7 @@ import mtech.irs.ekgs.frameworx.service.FrameworxService;
 import mtech.irs.ekgs.model.SearchInput;
 import mtech.irs.ekgs.model.SearchResults;
 import mtech.irs.ekgs.util.AppContextUtils;
+import mtech.irs.ekgs.util.GraphUtils;
 
 /**
  * Static helper methods
@@ -95,7 +96,40 @@ abstract public class Frameworx {
 	public static List<String> descForNodeScan(String name, int depth) {
 		return Arrays.asList(
 				"Please refer to the graph for the 360-degree scan for node (" + name + ") with depth limit " + depth + ".",
-				"If you wish to view more information about this node, please query again using a higher depth limit ranging from 1 to 3.");
+				depth < 3 ? "If you wish to view more information about this node, please query again using a higher depth limit ranging from 1 to 3." : "");
+	}
+	
+	public static void searchSuggestionForRelationScan(SearchResults results, String prefix) {
+		GraphUtils.findRelationTypesAll().forEach(l -> {
+			results.addSuggestion(prefix + l);
+		});
+	}
+	
+	public static void searchResultForRelationScan(SearchResults results, SearchInput input) {
+		final String value = input.getValue();
+		GraphUtils.findRelationTypesAll().stream()
+				.filter(r -> value.contains(r))
+				.findFirst()
+				.ifPresent(r -> {
+					results.addAction("view", Map.of(
+							"graph", cypherForRelationScan(r, 100, false),
+							"description", descForRelationScan(r, 100)));
+				});
+	}
+	
+	public static String cypherForRelationScan(String type, int limit, boolean count) {
+		String cypher = "MATCH (n)-[r:" + type + "]->(m) RETURN " + (count? "count(*) as count": "* LIMIT " + limit);
+		logger.debug("Cypher: {}", cypher);
+		return cypher;
+	}
+	
+	public static List<String> descForRelationScan(String type, int limit) {
+		String countCypher = cypherForRelationScan(type, limit, true);
+		long count = GraphUtils.service().query(countCypher, null, "count", Long.class).findFirst().orElse(0l);
+		return Arrays.asList(
+				"Please refer to the graph for the nodes that are linked with the relationship <" + type + ">.", 
+				"There are " + count + " instances of this relationship in total.",
+				count > limit? " The graph only display the first " + limit + " instances.": "");
 	}
 	
 	public static void searchSuggestionForProcessStreamScan(SearchResults results, String prefix) {
