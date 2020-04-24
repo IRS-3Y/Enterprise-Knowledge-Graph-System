@@ -171,20 +171,60 @@ abstract public class Frameworx {
 	
 	public static void searchResultForShortestPath(SearchResults results, SearchInput input) {
 		final String value = input.getValue();
+		String weightProperty = null;
 		if(value.contains("time")) {
-			results.addAction("view", Map.of("graph", cypherForShortestPath("relationTime")));
+			weightProperty = "relationTime";
 		}else if(value.contains("cost")) {
-			results.addAction("view", Map.of("graph", cypherForShortestPath("relationCost")));
+			weightProperty = "relationCost";
+		}else {
+			return;
 		}
+		results.addAction("view", Map.of(
+				"graph", cypherForShortestPath(weightProperty, false),
+				"table", tableInfoForShortestPath(weightProperty),
+				"description", descForShortestPath()));
 	}
 	
-	public static String cypherForShortestPath(String weightProperty) {
+	public static String cypherForShortestPath(String weightProperty, boolean table) {
 		String cypher = 
 				"MATCH (start {name:'Customer1'}), (end {name:'CIR1'}) " + 
 				"CALL algo.shortestPath.stream(start, end, '" + weightProperty + "',{direction:'OUTGOING'}) " + 
-				"YIELD nodeId, cost " + 
-				"RETURN algo.asNode(nodeId)";
+				"YIELD nodeId, cost ";
+		if(table) {
+			cypher +=
+				"WITH nodeId, cost, algo.asNode(nodeId) as n " +
+				"RETURN nodeId as id, cost, n.name as name, n.longName as longName, n.shortDescription as desc";
+		}else {
+			cypher +=
+				"WITH collect(nodeId) as ids, collect(cost) as weights " +
+				"CALL algo.asPath(ids, weights) YIELD path " +
+				"RETURN path";
+		}
 		logger.debug("Cypher: {}", cypher);
 		return cypher;
+	}
+	
+	public static Map<String, Object> tableInfoForShortestPath(String weightProperty){
+		List<Map<String, Object>> data = GraphUtils.service().query(cypherForShortestPath(weightProperty, true), null);
+		String cost = String.format("%.1f", data.get(data.size() - 1).get("cost"));
+		
+		List<String> description = Arrays.asList(
+				"The following steps can fulfil the Request-to-Answer process with the "
+				+ ("relationTime".equals(weightProperty)? "shortest response time ": "lowest cost ") + cost,
+				"Please refer to below table for the step cost summary");
+		
+		return Map.of(
+				"columns", Arrays.asList(
+						Map.of("name", "id", "label", "Node ID"),
+						Map.of("name", "name", "label", "Name"),
+						Map.of("name", "longName", "label", "Long Name"),
+						Map.of("name", "cost", "label", "Step Cost", "align", "right"),
+						Map.of("name", "desc", "label", "Step Description")),
+				"rows", data,
+				"description", description);
+	}
+	
+	public static List<String> descForShortestPath(){
+		return Arrays.asList("The following graph shows the end-to-end graph view about the optimized process flow.");
 	}
 }

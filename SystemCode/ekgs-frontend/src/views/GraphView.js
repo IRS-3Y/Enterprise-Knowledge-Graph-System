@@ -3,6 +3,12 @@ import { makeStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import ErrorBoundary from '../components/core/ErrorBoundary';
 import NeoVisGraph from '../components/visualization/NeoVisGraph';
 import { graph as defaultConfig } from '../config';
@@ -11,14 +17,17 @@ import {NEOVIS_DEFAULT_CONFIG} from 'neovis.js/dist/neovis.js';
 const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(1),
-    height: "100vh"
+    minHeight: "90vh"
   },
   description: {
-    padding: theme.spacing(3,5)
+    padding: theme.spacing(5,5,0,5)
+  },
+  table: {
+    padding: theme.spacing(0,5)
   }
 }));
 
-export default function GraphView({config = {}, cypher, description}) {
+export default function GraphView({config = {}, cypher, table, description}) {
   const _config = {
     labels: {},
     relationships: {},
@@ -29,6 +38,35 @@ export default function GraphView({config = {}, cypher, description}) {
   return (
     <Card className={classes.root}>
       <Grid>
+        {table && table.rows && table.rows.length? (
+          <Grid item>
+            {table.description && table.description.length? (
+              <div className={classes.description}>
+                {table.description.map((desc, i) => <Typography key={i} variant="body1">{desc}</Typography>)}
+              </div>
+            ): null}
+            <TableContainer className={classes.table}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {table.columns.map(({name, label, align}) => (
+                      <TableCell key={name} align={align?align:"left"}>{label}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {table.rows.map((row) => (
+                    <TableRow key={row.id}>
+                      {table.columns.map(({name, align}) => (
+                        <TableCell key={name} align={align?align:"left"}>{row[name]}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+        ): null}
         {description && description.length? (
           <Grid item>
             <div className={classes.description}>
@@ -52,7 +90,8 @@ export default function GraphView({config = {}, cypher, description}) {
                   ..._config.relationships
                 }
               }}
-              cypher={cypher}/>
+              cypher={cypher}
+              size={table? "medium": "default"}/>
           </ErrorBoundary>
         </Grid>
       </Grid>

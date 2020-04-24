@@ -1,16 +1,22 @@
 import React, {useEffect} from 'react';
+import classnames from 'classnames';
 import { makeStyles } from "@material-ui/core/styles";
 import NeoVis from 'neovis.js/dist/neovis.js';
 import { neovis as defaultConfig } from '../../config';
 
 const useStyles = makeStyles(theme => ({
   NeoVisGraph: {
-    width: "100%",
-    height: "100vh"
+    width: "100%"
+  },
+  sizeDefault: {
+    height: "90vh"
+  },
+  sizeMedium: {
+    height: "60vh"
   }
 }));
 
-export default function NeoVisGraph({config = {}, cypher = ""}) {
+export default function NeoVisGraph({config = {}, cypher = "", size = "default"}) {
   useEffect(() => {
     new NeoVis({
       ...defaultConfig,
@@ -22,5 +28,9 @@ export default function NeoVisGraph({config = {}, cypher = ""}) {
   });
 
   const classes = useStyles();
-  return <div id="viz" className={classes.NeoVisGraph}/>
+  return <div id="viz" className={classnames({
+    [classes.NeoVisGraph]: true,
+    [classes.sizeDefault]: size === 'default',
+    [classes.sizeMedium]: size === 'medium'
+  })}/>
 }

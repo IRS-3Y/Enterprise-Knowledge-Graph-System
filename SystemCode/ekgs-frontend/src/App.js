@@ -121,14 +121,16 @@ export default function App() {
 
   const [info, setInfo] = React.useState({
     cypher: "",
+    table: null,
     description: []
   });
   const handleSearchResult = (result) => {
     if(result && result[0]){
-      const {name: action, params: {graph, description = []}} = result[0];
+      const {name: action, params: {graph, table, description = []}} = result[0];
       if(action === 'view'){
         setInfo({
           cypher: graph,
+          table,
           description
         })
       }

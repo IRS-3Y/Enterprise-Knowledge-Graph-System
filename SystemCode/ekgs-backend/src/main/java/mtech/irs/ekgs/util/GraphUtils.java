@@ -18,7 +18,7 @@ abstract public class GraphUtils {
 	}
 	
 	public static List<String> findRelationTypesAll(){
-		final String cypher = "MATCH ()-[r]->() RETURN distinct type(r) as t";
+		final String cypher = "CALL db.relationshipTypes YIELD relationshipType as t";
 		return service().queryList(cypher, null, "t", String.class);
 	}
 	
