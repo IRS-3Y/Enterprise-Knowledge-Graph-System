@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SearchBar({onSearchResult}) {
+export default function SearchBar({onSearchResult, onClearResult}) {
   const classes = useStyles();
   const inputRef = React.createRef();
   const [inputValue, setInputValue] = React.useState('');
@@ -37,6 +37,9 @@ export default function SearchBar({onSearchResult}) {
 
   const handleInputChange = (e, value) => {
     setInputValue(value);
+    if(!value && onClearResult){
+      onClearResult();
+    }
   };
   const handleChange = (e, value) => {
     let input = inputRef.current;

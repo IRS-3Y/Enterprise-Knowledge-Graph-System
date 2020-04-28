@@ -134,6 +134,13 @@ export default function App() {
       })
     }
   }
+  const handleClearResult = () => {
+    setInfo({
+      cypher: "",
+      table: null,
+      description: []
+    })
+  }
   const [graphConfig, setGraphConfig] = React.useState(config.graph);
   const handleNodeLabelChange = (e) => {
     setGraphConfig({
@@ -177,7 +184,7 @@ export default function App() {
             </IconButton>
             {open? null: logo}
             {open? toolbarMenu: null}
-            <SearchBar onSearchResult={handleSearchResult}/>
+            <SearchBar onSearchResult={handleSearchResult} onClearResult={handleClearResult}/>
           </Toolbar>
         </AppBar>
         <Drawer className={classes.drawer}
