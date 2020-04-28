@@ -31,11 +31,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function SearchBar({onSearchResult}) {
   const classes = useStyles();
+  const inputRef = React.createRef();
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
 
-  const handleChange = event => {
-    setInputValue(event.target.value);
+  const handleInputChange = (e, value) => {
+    setInputValue(value);
+  };
+  const handleChange = (e, value) => {
+    let input = inputRef.current;
+    backend.searchAction({value}).then(result => {
+      if(result && result[0]){
+        onSearchResult(result);
+      }else{
+        input.focus();
+      }
+    });
   };
 
   React.useEffect(() => {
@@ -55,7 +66,6 @@ export default function SearchBar({onSearchResult}) {
       className = {classes.root}
       autoComplete
       freeSolo
-      includeInputInList
       renderInput = {params => (
         <TextField {...params}
           classes={{
@@ -74,7 +84,7 @@ export default function SearchBar({onSearchResult}) {
               </InputAdornment>
             )
           }}
-          onChange={handleChange}
+          inputRef = {inputRef}
         />
       )}
       options={options}
@@ -88,9 +98,9 @@ export default function SearchBar({onSearchResult}) {
           </Grid>
         );
       }}
-      onClose = {
-        e => backend.searchAction({value: e.target.value}).then(onSearchResult)
-      }
+      onInputChange = {handleInputChange}
+      onChange = {handleChange}
+      blurOnSelect = 'mouse'
     />
   );
 }

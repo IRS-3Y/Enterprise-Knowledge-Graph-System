@@ -125,15 +125,13 @@ export default function App() {
     description: []
   });
   const handleSearchResult = (result) => {
-    if(result && result[0]){
-      const {name: action, params: {graph, table, description = []}} = result[0];
-      if(action === 'view'){
-        setInfo({
-          cypher: graph,
-          table,
-          description
-        })
-      }
+    const {name: action, params: {graph, table, description = []}} = result[0];
+    if(action === 'view'){
+      setInfo({
+        cypher: graph,
+        table,
+        description
+      })
     }
   }
   const [graphConfig, setGraphConfig] = React.useState(config.graph);
