@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.google.cloud.dialogflow.v2.DetectIntentResponse;
 import com.google.cloud.dialogflow.v2.QueryInput;
@@ -36,6 +37,7 @@ public class DialogflowClient {
 	}
 
 	public QueryResult detectIntent(String text, String sessionId) {
+		Assert.hasLength(text, "query text cannot be empty");
 		final String languageCode = "en";
 		
 		if(StringUtils.isEmpty(sessionId)) {
@@ -59,10 +61,9 @@ public class DialogflowClient {
 
 			// Display the query result
 			QueryResult result = response.getQueryResult();
-			logger.debug("Query: {}, Intent: {} (confidence: {}, parameters: {}), Fulfillment: {}", 
-					result.getQueryText(), result.getIntent().getDisplayName(), 
-					result.getIntentDetectionConfidence(), result.getParameters().toString(),
-					result.getFulfillmentText());
+			logger.debug("Query: {}, Intent: {} (confidence: {}), Fulfillment: {} \nActon: {}: \n{}", 
+					result.getQueryText(), result.getIntent().getDisplayName(), result.getIntentDetectionConfidence(), 
+					result.getFulfillmentText(), result.getAction(), result.getParameters().toString());
 
 			return result;
 			

@@ -21,4 +21,9 @@ public class SearchController {
 	public SearchResults search(@RequestBody SearchInput input) {
 		return service.search(input);
 	}
+	
+	@PostMapping("/dialog")
+	public SearchResults searchDialog(@RequestBody SearchInput input) {
+		return service.searchDialog(input);
+	}
 }

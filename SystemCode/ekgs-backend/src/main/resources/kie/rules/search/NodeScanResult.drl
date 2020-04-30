@@ -12,3 +12,13 @@ when
 then
     Frameworx.searchResultForNodeScan(sr, si);
 end
+
+rule "node scan result (dialogflow)"
+activation-group "search-result"
+salience 10
+when
+    da : DialogAction ( name == "node-scan" )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForNodeScan(sr, da);
+end

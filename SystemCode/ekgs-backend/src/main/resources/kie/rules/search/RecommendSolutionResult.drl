@@ -3,6 +3,16 @@ package mtech.irs.ekgs.kie.rules.search
 import mtech.irs.ekgs.model.*
 import mtech.irs.ekgs.frameworx.*
 
+rule "recommend solution result (dialogflow)"
+activation-group "search-result"
+salience 10
+when
+    da : DialogAction( name == "recommend-solution" )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForRecommendSolution(sr, da);
+end
+
 rule "shortest path result"
 activation-group "search-result"
 salience 10

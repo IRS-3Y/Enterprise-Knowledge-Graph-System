@@ -12,3 +12,13 @@ when
 then
     Frameworx.searchResultForRelationScan(sr, si);
 end
+
+rule "relation scan result (dialogflow)"
+activation-group "search-result"
+salience 10
+when
+    da : DialogAction( name == "relationship-scan" )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForRelationScan(sr, da);
+end

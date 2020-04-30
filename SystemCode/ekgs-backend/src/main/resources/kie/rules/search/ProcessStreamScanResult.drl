@@ -12,3 +12,13 @@ when
 then
     Frameworx.searchResultForProcessStreamScan(sr, si);
 end
+
+rule "process stream scan result (dialogflow)"
+activation-group "search-result"
+salience 10
+when
+    da : DialogAction( name == "process-stream-scan" )
+    sr : SearchResults()
+then
+    Frameworx.searchResultForProcessStreamScan(sr, da);
+end

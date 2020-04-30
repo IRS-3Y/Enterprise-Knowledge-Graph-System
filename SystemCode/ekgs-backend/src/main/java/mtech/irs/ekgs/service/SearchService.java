@@ -11,5 +11,7 @@ import mtech.irs.ekgs.model.SearchResults;
 public interface SearchService {
 	
 	SearchResults search(SearchInput input);
+	
+	SearchResults searchDialog(SearchInput input);
 
 }

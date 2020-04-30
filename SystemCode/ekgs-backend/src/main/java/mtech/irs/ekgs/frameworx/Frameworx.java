@@ -7,8 +7,10 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import mtech.irs.ekgs.frameworx.service.FrameworxService;
+import mtech.irs.ekgs.model.DialogAction;
 import mtech.irs.ekgs.model.SearchInput;
 import mtech.irs.ekgs.model.SearchResults;
 import mtech.irs.ekgs.util.AppContextUtils;
@@ -89,6 +91,17 @@ abstract public class Frameworx {
 		}
 	}
 	
+	public static void searchResultForNodeScan(SearchResults results, DialogAction action) {
+		final String label = (String) action.getParams().get("nodeLabel");
+		final String name = (String) action.getParams().get("nodeName");
+		final String depth = (String) action.getParams().get("depth");
+		if(StringUtils.hasLength(label) && StringUtils.hasLength(name)) {
+			results.addAction("view", Map.of(
+					"graph", cypherForNodeScan(label, name, Integer.valueOf(depth)),
+					"description", descForNodeScan(name, Integer.valueOf(depth))));
+		}
+	}
+	
 	public static String cypherForNodeScan(String label, String name, int depth) {
 		String cypher = 
 				"MATCH(n:" + label + "{longName:'" + name + "'}) " + 
@@ -121,6 +134,16 @@ abstract public class Frameworx {
 							"graph", cypherForRelationScan(r, 100, false),
 							"description", descForRelationScan(r, 100)));
 				});
+	}
+	
+	public static void searchResultForRelationScan(SearchResults results, DialogAction action) {
+		final String relationship = (String) action.getParams().get("relationship");
+		final String limit = (String) action.getParams().get("limit");
+		if(StringUtils.hasLength(relationship)) {
+			results.addAction("view", Map.of(
+					"graph", cypherForRelationScan(relationship, Integer.parseInt(limit), false),
+					"description", descForRelationScan(relationship, Integer.parseInt(limit))));
+		}
 	}
 	
 	public static String cypherForRelationScan(String type, int limit, boolean count) {
@@ -157,6 +180,15 @@ abstract public class Frameworx {
 		}
 	}
 	
+	public static void searchResultForProcessStreamScan(SearchResults results, DialogAction action) {
+		final String streamName = (String) action.getParams().get("processStream");
+		if(StringUtils.hasLength(streamName)) {
+			results.addAction("view", Map.of(
+					"graph", cypherForProcessStreamScan(streamName),
+					"description", descForProcessStreamScan(streamName)));
+		}
+	}
+	
 	public static String cypherForProcessStreamScan(String streamName) {
 		String cypher = "MATCH p=()-[r]->() WHERE trim(r.processStream) = '"+ streamName +"' RETURN p";
 		logger.debug("Cypher: {}", cypher);
@@ -167,6 +199,25 @@ abstract public class Frameworx {
 		return Arrays.asList(
 				"Please refer to the graph for the end-to-end business process group " + streamName + ".",
 				"If you wish to view certain sub-process in this graph, please use Relationship scan for that specific sub process within this process group.");
+	}
+	
+	public static void searchResultForRecommendSolution(SearchResults results, DialogAction action) {
+		final String solutionType = (String) action.getParams().get("solutionType");
+		final String solutionTarget = (String) action.getParams().get("solutionTarget");
+		if(StringUtils.hasLength(solutionType)) {
+			String weightProperty = null;
+			if(solutionTarget.contains("time")) {
+				weightProperty = "relationTime";
+			}else if(solutionTarget.contains("cost")) {
+				weightProperty = "relationCost";
+			}else {
+				return;
+			}
+			results.addAction("view", Map.of(
+					"graph", cypherForShortestPath(weightProperty, false),
+					"table", tableInfoForShortestPath(weightProperty),
+					"description", descForShortestPath()));
+		}
 	}
 	
 	public static void searchResultForShortestPath(SearchResults results, SearchInput input) {
