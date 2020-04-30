@@ -7,8 +7,8 @@ rule "process stream scan suggestion"
 activation-group "search-suggestion"
 salience 10
 when
-    SearchInput( value != null && value.startsWith("End-to-end process scan") )
+    SearchInput( value != null && value.startsWith("End-to-End Process Scan") )
     sr : SearchResults()
 then
-    Frameworx.searchSuggestionForProcessStreamScan(sr, "End-to-end process scan for ");
+    Frameworx.searchSuggestionForProcessStreamScan(sr, "End-to-End Process Scan for ");
 end

@@ -7,7 +7,7 @@ rule "process stream scan result"
 activation-group "search-result"
 salience 10
 when
-    si : SearchInput( value != null && value.startsWith("End-to-end process scan") )
+    si : SearchInput( value != null && value.startsWith("End-to-End Process Scan") )
     sr : SearchResults()
 then
     Frameworx.searchResultForProcessStreamScan(sr, si);

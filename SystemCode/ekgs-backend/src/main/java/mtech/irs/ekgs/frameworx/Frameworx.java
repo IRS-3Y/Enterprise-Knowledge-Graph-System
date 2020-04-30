@@ -9,11 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import com.google.common.cache.LoadingCache;
+
 import mtech.irs.ekgs.frameworx.service.FrameworxService;
 import mtech.irs.ekgs.model.DialogAction;
 import mtech.irs.ekgs.model.SearchInput;
 import mtech.irs.ekgs.model.SearchResults;
 import mtech.irs.ekgs.util.AppContextUtils;
+import mtech.irs.ekgs.util.CacheUtils;
 import mtech.irs.ekgs.util.GraphUtils;
 
 /**
@@ -29,6 +32,12 @@ abstract public class Frameworx {
 	
 	private static FrameworxService service;
 	
+	private static final LoadingCache<String, List<String>> nodeNamesCache = CacheUtils.buildCache(label -> {
+		List<String> names = GraphUtils.findNodePropValues(label, "longName", null, false);
+		names.sort((l, r) -> l.compareTo(r));
+		return names;
+	}, 60);
+	
 	public static FrameworxService service() {
 		if(service == null) {
 			service = AppContextUtils.getBean(FrameworxService.class);
@@ -37,7 +46,7 @@ abstract public class Frameworx {
 	}
 	
 	public static List<String> findNodeNames(String label){
-		return GraphUtils.findNodePropValues(label, "longName", null, false);
+		return nodeNamesCache.getUnchecked(label);
 	}
 	
 	public static List<String> findProcessStreams(){
@@ -125,9 +134,9 @@ abstract public class Frameworx {
 	}
 	
 	public static void searchResultForRelationScan(SearchResults results, SearchInput input) {
-		final String value = input.getValue();
+		final String value = input.getValue().trim();
 		GraphUtils.findRelationTypesAll().stream()
-				.filter(r -> value.contains(r))
+				.filter(r -> value.endsWith(r))
 				.findFirst()
 				.ifPresent(r -> {
 					results.addAction("view", Map.of(
@@ -198,7 +207,7 @@ abstract public class Frameworx {
 	public static List<String> descForProcessStreamScan(String streamName) {
 		return Arrays.asList(
 				"Please refer to the graph for the end-to-end business process group " + streamName + ".",
-				"If you wish to view certain sub-process in this graph, please use Relationship scan for that specific sub process within this process group.");
+				"If you wish to view certain sub-process in this graph, please use Relationship Scan for that specific sub process within this process group.");
 	}
 	
 	public static void searchResultForRecommendSolution(SearchResults results, DialogAction action) {

@@ -7,19 +7,19 @@ rule "recommend solution suggestion"
 activation-group "search-suggestion"
 salience 10
 when
-    SearchInput( value != null && value.startsWith("Recommend a solution") )
+    SearchInput( value != null && value.startsWith("Recommend Solution") )
     sr : SearchResults()
 then
-    sr.addSuggestion("Recommend a solution fulfil Request-to-Answer");
+    sr.addSuggestion("Recommend Solution fulfil Request-to-Answer");
 end
 
 rule "recommend solution request-to-answer"
 activation-group "search-suggestion"
 salience 20
 when
-    SearchInput( value != null && value.startsWith("Recommend a solution fulfil Request-to-Answer") )
+    SearchInput( value != null && value.startsWith("Recommend Solution fulfil Request-to-Answer") )
     sr : SearchResults()
 then
-    sr.addSuggestion("Recommend a solution fulfil Request-to-Answer with lowest cost");
-    sr.addSuggestion("Recommend a solution fulfil Request-to-Answer with shortest response time");
+    sr.addSuggestion("Recommend Solution fulfil Request-to-Answer with lowest cost");
+    sr.addSuggestion("Recommend Solution fulfil Request-to-Answer with shortest response time");
 end

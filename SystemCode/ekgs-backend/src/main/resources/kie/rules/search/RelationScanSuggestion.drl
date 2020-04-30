@@ -7,9 +7,9 @@ rule "relation scan suggestion"
 activation-group "search-suggestion"
 salience 10
 when
-    SearchInput( value != null && value.startsWith("Relationship scan") )
+    SearchInput( value != null && value.startsWith("Relationship Scan") )
     sr : SearchResults()
 then
-    Frameworx.searchSuggestionForRelationScan(sr, "Relationship scan for ");
+    Frameworx.searchSuggestionForRelationScan(sr, "Relationship Scan for ");
 end
 
