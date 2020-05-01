@@ -7,7 +7,7 @@
   "scripts": {
     "build": "run-s clean build:maven build:docker",
     "build:maven": "mvn clean install",
-    "build:docker": "copyfiles -f ./docker/Dockerfile ./target && docker build --tag=ekgs-backend:dev target",
+    "build:docker": "copyfiles -f \"./docker/*\" ./target && docker build --tag=ekgs-backend:dev target",
     "clean": "del-cli ./target"
   },
   "devDependencies": {

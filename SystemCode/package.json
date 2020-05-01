@@ -16,7 +16,11 @@
     "start": "docker-compose -p ekgs -f ./ekgs-compose.yml up -d",
     "stop": "docker-compose -p ekgs -f ./ekgs-compose.yml down -v",
     "sh:backend": "docker-compose -p ekgs -f ./ekgs-compose.yml exec backend sh -c \"[ -e /bin/bash ] && /bin/bash || /bin/sh\"",
-    "sh:graphdata": "docker-compose -p ekgs -f ./ekgs-compose.yml exec graphdata sh -c \"[ -e /bin/bash ] && /bin/bash || /bin/sh\""
+    "sh:graphdata": "docker-compose -p ekgs -f ./ekgs-compose.yml exec graphdata sh -c \"[ -e /bin/bash ] && /bin/bash || /bin/sh\"",
+    "docker:publish": "run-s docker:publish:*",
+    "docker:publish:frontend": "docker push irs3y/ekgs-frontend",
+    "docker:publish:backend": "docker push irs3y/ekgs-backend",
+    "docker:publish:graphdata": "docker push irs3y/ekgs-graphdata"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
