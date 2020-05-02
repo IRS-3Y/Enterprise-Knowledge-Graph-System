@@ -13,7 +13,8 @@ CALL apoc.create.node([map.label1, map.label2], {
   cost: toFloat(map.cost),
   time: toFloat(map.time),
   quality: map.quality,
-  resource: toFloat(map.resource)
+  resource: toFloat(map.resource),
+  loadDistribution: toFloat(map.loadDistribution)
 }) YIELD node 
 RETURN count(node);
 
@@ -24,6 +25,7 @@ CALL apoc.create.relationship(n, map.type, {
   relationCost: toFloat(map.relationCost),
   relationTime: toFloat(map.relationTime),
   relationQuality: map.relationQuality,
-  processStream: map.processStream
+  processStream: map.processStream,
+  relationResource: toFloat(map.relationResource)
 }, p) YIELD rel AS relationship
 RETURN count(relationship);

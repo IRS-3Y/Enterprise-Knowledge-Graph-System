@@ -11,6 +11,7 @@ done
 
 # run load data cypher
 echo Loading EKGS data...
+chmod +r /ekgs/data/*.csv
 cp /ekgs/data/*.csv /var/lib/neo4j/import/
 cat /ekgs/cypher/load_data.cypher | cypher-shell
 echo EKGS data loaded
