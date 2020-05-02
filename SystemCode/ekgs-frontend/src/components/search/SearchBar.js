@@ -13,11 +13,20 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginLeft: theme.spacing(2)
   },
+  searchIcon: {
+    margin: theme.spacing(0,1)
+  },
   searchInput: {
     color: 'inherit',
   },
   searchTextField: {
     width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 300,
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 600,
+    },
     [theme.breakpoints.up('lg')]: {
       width: 900,
     },
@@ -106,7 +115,7 @@ export default function SearchBar({onSearchResult, onClearResult}) {
               root: classes.searchInput
             },
             startAdornment: (
-              <InputAdornment>
+              <InputAdornment className={classes.searchIcon}>
                 <SearchIcon />
               </InputAdornment>
             )

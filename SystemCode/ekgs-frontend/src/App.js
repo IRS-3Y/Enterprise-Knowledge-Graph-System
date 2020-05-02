@@ -13,7 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import MenuIcon from '@material-ui/icons/Menu';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import SettingsIcon from '@material-ui/icons/Settings';
+import TuneIcon from '@material-ui/icons/Tune';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchBar from './components/search/SearchBar';
@@ -59,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingTop: theme.spacing(0.5),
     paddingBottom: theme.spacing(0.5)
+  },
+  toolButtonGroup: {
+    marginLeft: theme.spacing(2),
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -156,15 +163,12 @@ export default function App() {
   }
 
   const logo = (
-    <Typography className={classes.white} variant="h6" noWrap>EKGS</Typography>
+    <a href="/"><Typography className={classes.white} variant="h6" noWrap>EKGS</Typography></a>
   )
   const toolbarMenu = (
     <ButtonGroup variant="text">
-      <Button>
-        <Typography className={classes.white} variant="subtitle1" noWrap>File</Typography>
-      </Button>
-      <Button>
-        <Typography className={classes.white} variant="subtitle1" noWrap>Help</Typography>
+      <Button href="https://github.com/IRS-3Y/Enterprise-Knowledge-Graph-System" target="_blank">
+        <Typography className={classes.white} variant="subtitle1" noWrap>About</Typography>
       </Button>
     </ButtonGroup>
   )
@@ -185,6 +189,23 @@ export default function App() {
             {open? null: logo}
             {open? toolbarMenu: null}
             <SearchBar onSearchResult={handleSearchResult} onClearResult={handleClearResult}/>
+            <div className={classes.toolButtonGroup}>
+              <Tooltip title="Resource Simulation">
+                <IconButton>
+                  <TuneIcon className={classes.white}/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="System Settings">
+                <IconButton>
+                  <SettingsIcon className={classes.white}/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Project Site">
+                <IconButton href="https://github.com/IRS-3Y/Enterprise-Knowledge-Graph-System" target="_blank">
+                  <GitHubIcon className={classes.white}/>
+                </IconButton>
+              </Tooltip>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer className={classes.drawer}
