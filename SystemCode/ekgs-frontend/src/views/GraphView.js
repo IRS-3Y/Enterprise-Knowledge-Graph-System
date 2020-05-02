@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme => ({
   description: {
     padding: theme.spacing(5,5,0,5)
   },
+  descriptionLine: {
+    padding: theme.spacing(0,0,1,0)
+  },
   table: {
     padding: theme.spacing(0,5)
   }
@@ -36,13 +39,15 @@ export default function GraphView({config = {}, cypher, table, description}) {
   };
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Paper className={classes.root}>
       <Grid>
         {table && table.rows && table.rows.length? (
           <Grid item>
             {table.description && table.description.length? (
               <div className={classes.description}>
-                {table.description.map((desc, i) => <Typography key={i} variant="body1">{desc}</Typography>)}
+                {table.description.map((desc, i) => (
+                  <Typography key={i} variant="body1" className={classes.descriptionLine}>{desc}</Typography>
+                ))}
               </div>
             ): null}
             <TableContainer className={classes.table}>
@@ -70,7 +75,9 @@ export default function GraphView({config = {}, cypher, table, description}) {
         {description && description.length? (
           <Grid item>
             <div className={classes.description}>
-              {description.map((desc, i) => <Typography key={i} variant="body1">{desc}</Typography>)}
+              {description.map((desc, i) => (
+                <Typography key={i} variant="body1" className={classes.descriptionLine}>{desc}</Typography>
+              ))}
             </div>
           </Grid>
         ): null}
@@ -97,6 +104,6 @@ export default function GraphView({config = {}, cypher, table, description}) {
           </Grid>
         ): null}
       </Grid>
-    </Card>
+    </Paper>
   );
 }

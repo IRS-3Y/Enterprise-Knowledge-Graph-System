@@ -25,6 +25,10 @@ import SearchBar from './components/search/SearchBar';
 import GraphView from './views/GraphView';
 import SystemSettings from './views/SystemSettings';
 import config from './config';
+import AppService from './services/AppService';
+
+//load app settings from backend
+new AppService().loadSettings();
 
 const drawerWidth = 240;
 
