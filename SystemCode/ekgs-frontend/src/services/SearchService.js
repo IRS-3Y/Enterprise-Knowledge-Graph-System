@@ -39,4 +39,19 @@ export default class SearchService {
   }
   searchSuggestionThrottled = _.throttle((input) => this.searchSuggestion(input), 100);
   
+  getHistory = (limit = 20, includes = "", excludes = []) => {
+    let pattern = includes.toLowerCase();
+    let history = window.localStorage.getItem('ekgs-search-history');
+    return history? JSON.parse(history).filter(v => v.toLowerCase().includes(pattern) && !excludes.includes(v)).slice(0, limit): [];
+  }
+
+  addHistory = (value) => {
+    let history = this.getHistory();
+    if(history.includes(value)){
+      return;
+    }
+    history.unshift(value);
+    history = history.slice(0, 20);
+    window.localStorage.setItem('ekgs-search-history', JSON.stringify(history));
+  }
 }

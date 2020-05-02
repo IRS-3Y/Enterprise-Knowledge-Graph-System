@@ -47,9 +47,11 @@ export default function SearchBar({onSearchResult, onClearResult}) {
       enter = true;
     }
     let input = inputRef.current;
-    backend.searchAction({value}, enter).then(result => {
+    backend.searchAction({value}, enter || backend.getHistory().includes(value)).then(result => {
       if(result && result[0]){
         input.blur();
+        //put successful search to history
+        backend.addHistory(value);
         onSearchResult(result);
       }else if(enter) {
         onSearchResult([{
@@ -72,7 +74,13 @@ export default function SearchBar({onSearchResult, onClearResult}) {
     let active = true;
     backend.searchSuggestionThrottled({ value: inputValue }).then(results => {
       if (active) {
-        setOptions(results || []);
+        let opts = results || [];
+        if(opts.length < 10){
+          //add history search to suggestion
+          let history = backend.getHistory(5, inputValue, opts);
+          opts = [...history, ...opts];
+        }
+        setOptions(opts);
       }
     });
     return () => {
