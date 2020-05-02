@@ -22,6 +22,7 @@ import TuneIcon from '@material-ui/icons/Tune';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchBar from './components/search/SearchBar';
+import MessageSnackbar from './components/core/MessageSnackbar';
 import GraphView from './views/GraphView';
 import SystemSettings from './views/SystemSettings';
 import config from './config';
@@ -29,6 +30,8 @@ import AppService from './services/AppService';
 
 //load app settings from backend
 new AppService().loadSettings();
+
+const messageQueue = [];
 
 const drawerWidth = 240;
 
@@ -252,7 +255,7 @@ export default function App() {
           <div className={classes.drawerHeader} />
           <Switch>
             <Route path="/settings">
-              <SystemSettings/>
+              <SystemSettings messageQueue={messageQueue}/>
             </Route>
             <Route path="/">
               <GraphView config={graphConfig} {...info}/>
@@ -260,6 +263,7 @@ export default function App() {
           </Switch>
         </main>
       </div>
+      <MessageSnackbar queue={messageQueue}/>
     </ThemeProvider>
   );
 }

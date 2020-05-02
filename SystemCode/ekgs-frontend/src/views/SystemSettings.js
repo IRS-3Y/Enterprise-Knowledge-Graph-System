@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SystemSettings(){
+export default function SystemSettings({messageQueue}){
   const classes = useStyles();
 
   const [graphOpts, setGraphOpts] = React.useState({
@@ -40,6 +40,10 @@ export default function SystemSettings(){
   const handleSaveGraphSettings = async () => {
     let settings = await app.mergeSettings({graph: graphOpts});
     await app.loadSettings(settings);
+    messageQueue.push({
+      severity: "success",
+      text: "Successfully saved System Settings"
+    })
   }
   React.useEffect(() => {
     let active = true;
