@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { Switch, Route, Link, useHistory } from 'react-router-dom';
 import { makeStyles, useTheme, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,6 +23,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchBar from './components/search/SearchBar';
 import GraphView from './views/GraphView';
+import SystemSettings from './views/SystemSettings';
 import config from './config';
 
 const drawerWidth = 240;
@@ -117,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
 
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -140,13 +143,15 @@ export default function App() {
         description
       })
     }
+    history.push("/");
   }
   const handleClearResult = () => {
     setInfo({
       cypher: "",
       table: null,
       description: []
-    })
+    });
+    history.push("/");
   }
   const [graphConfig, setGraphConfig] = React.useState(config.graph);
   const handleNodeLabelChange = (e) => {
@@ -163,7 +168,7 @@ export default function App() {
   }
 
   const logo = (
-    <a href="/"><Typography className={classes.white} variant="h6" noWrap>EKGS</Typography></a>
+    <Link to="/"><Typography className={classes.white} variant="h6" noWrap>EKGS</Typography></Link>
   )
   const toolbarMenu = (
     <ButtonGroup variant="text">
@@ -195,11 +200,13 @@ export default function App() {
                   <TuneIcon className={classes.white}/>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="System Settings">
-                <IconButton>
-                  <SettingsIcon className={classes.white}/>
-                </IconButton>
-              </Tooltip>
+              <Link to="/settings">
+                <Tooltip title="System Settings">
+                  <IconButton>
+                    <SettingsIcon className={classes.white}/>
+                  </IconButton>
+                </Tooltip>
+              </Link>
               <Tooltip title="Project Site">
                 <IconButton href="https://github.com/IRS-3Y/Enterprise-Knowledge-Graph-System" target="_blank">
                   <GitHubIcon className={classes.white}/>
@@ -239,7 +246,14 @@ export default function App() {
         </Drawer>
         <main className={clsx(classes.content, {[classes.contentShift]: open})}>
           <div className={classes.drawerHeader} />
-          <GraphView config={graphConfig} {...info}/>
+          <Switch>
+            <Route path="/settings">
+              <SystemSettings/>
+            </Route>
+            <Route path="/">
+              <GraphView config={graphConfig} {...info}/>
+            </Route>
+          </Switch>
         </main>
       </div>
     </ThemeProvider>
