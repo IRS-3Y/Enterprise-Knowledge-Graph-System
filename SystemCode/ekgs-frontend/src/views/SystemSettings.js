@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import AppService from '../services/AppService';
 
 const app = new AppService();
@@ -18,6 +19,18 @@ const useStyles = makeStyles(theme => ({
   },
   divider: {
     margin: theme.spacing(1,0,3,0)
+  },
+  success: {
+    color: "white",
+    backgroundColor: theme.palette.success.main
+  },
+  warning: {
+    color: "white",
+    backgroundColor: theme.palette.warning.main
+  },
+  error: {
+    color: "white",
+    backgroundColor: theme.palette.error.main
   }
 }));
 
@@ -55,13 +68,37 @@ export default function SystemSettings({messageQueue}){
     return () => { active = false; };
   }, []);
 
+  const [status, setStatus] = React.useState({
+    checked: false,
+    graphReady: false,
+    dialogflowConnected: false
+  })
+  React.useEffect(() => {
+    let active = true;
+    app.getStatus().then(status => {
+      if (active) {
+        setStatus({...status, checked: true});
+      }
+    });
+    return () => { active = false; };
+  }, []);
+
   return (
     <Paper className={classes.root}>
       <Typography variant="h6">System Status and Settings</Typography>
       <Divider className={classes.divider}/>
       <Grid container spacing={1}>
         <Grid item xs={12}> 
-          <Typography variant="subtitle1">Graph Data Service:</Typography>
+          <Typography variant="subtitle1">
+            Graph Data Service: &nbsp;&nbsp;&nbsp;
+            {status.checked? (status.graphReady? (
+              <Chip className={classes.success} label="Ready"/>
+            ):(
+              <Chip className={classes.warning} label="Loading"/>
+            )):(
+              <Chip label="Checking"/>
+            )}
+          </Typography>
         </Grid>
         <Grid item xs={6} md={4} lg={3}>
           <TextField label="Graph Data Host"
@@ -81,7 +118,16 @@ export default function SystemSettings({messageQueue}){
         </Grid>
         <Grid item xs={12}>
           <Divider className={classes.divider}/>
-          <Typography variant="subtitle1">Dialogflow Service:</Typography>
+          <Typography variant="subtitle1">
+            Dialogflow Service: &nbsp;&nbsp;&nbsp;
+            {status.checked? (status.dialogflowConnected? (
+              <Chip className={classes.success} label="Connected"/>
+            ):(
+              <Chip className={classes.error} label="Disconnected"/>
+            )):(
+              <Chip label="Checking"/>
+            )}
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">

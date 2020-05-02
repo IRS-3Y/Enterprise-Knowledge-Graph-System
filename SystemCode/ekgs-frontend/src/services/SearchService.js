@@ -1,6 +1,9 @@
 import axios from 'axios';
 import _ from 'lodash';
 import config from '../config';
+import AppService from './AppService';
+
+const app = new AppService();
 
 /**
  * Client service for calling backend search REST API
@@ -25,9 +28,14 @@ export default class SearchService {
     let data = await this.search(input);
     let actions = data.results.filter(r => r.type === 'action');
     if(!actions.length && dialog){
-      //retry with dialogflow query
-      data = await this.search(input, "/dialog");
-      actions = data.results.filter(r => r.type === 'action');
+      try{
+        //retry with dialogflow query
+        data = await this.search(input, "/dialog");
+        actions = data.results.filter(r => r.type === 'action');
+      }catch(e){
+        console.error(e);
+        app.checkStatus();
+      }
     }
     return actions;
   }

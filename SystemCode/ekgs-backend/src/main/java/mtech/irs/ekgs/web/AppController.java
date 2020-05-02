@@ -7,11 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mtech.irs.ekgs.app.AppSettings;
+import mtech.irs.ekgs.app.AppStatus;
 import mtech.irs.ekgs.util.AppContextUtils;
 
 @RestController
 @RequestMapping("/app")
 public class AppController {
+	
+	@GetMapping("/status")
+	public AppStatus getStatus() {
+		return new AppStatus().load();
+	}
 
 	@GetMapping("/settings")
 	public AppSettings getSettings() {

@@ -26,12 +26,13 @@ import MessageSnackbar from './components/core/MessageSnackbar';
 import GraphView from './views/GraphView';
 import SystemSettings from './views/SystemSettings';
 import config from './config';
-import AppService from './services/AppService';
+import AppService, {messageQueue} from './services/AppService';
 
+const app = new AppService();
+//check app status
+app.checkStatus();
 //load app settings from backend
-new AppService().loadSettings();
-
-const messageQueue = [];
+app.loadSettings();
 
 const drawerWidth = 240;
 
