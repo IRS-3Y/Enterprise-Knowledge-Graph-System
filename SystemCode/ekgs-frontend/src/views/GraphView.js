@@ -74,26 +74,28 @@ export default function GraphView({config = {}, cypher, table, description}) {
             </div>
           </Grid>
         ): null}
-        <Grid item>
-          <ErrorBoundary>
-            <NeoVisGraph config={{
-                labels: {
-                  [NEOVIS_DEFAULT_CONFIG]: {
-                    caption: _config.nodeCaption
+        {cypher? (
+          <Grid item>
+            <ErrorBoundary>
+              <NeoVisGraph config={{
+                  labels: {
+                    [NEOVIS_DEFAULT_CONFIG]: {
+                      caption: _config.nodeCaption
+                    },
+                    ..._config.labels
                   },
-                  ..._config.labels
-                },
-                relationships: {
-                  [NEOVIS_DEFAULT_CONFIG]: {
-                    caption: _config.relationshipCaption
-                  },
-                  ..._config.relationships
-                }
-              }}
-              cypher={cypher}
-              size={table? "medium": "default"}/>
-          </ErrorBoundary>
-        </Grid>
+                  relationships: {
+                    [NEOVIS_DEFAULT_CONFIG]: {
+                      caption: _config.relationshipCaption
+                    },
+                    ..._config.relationships
+                  }
+                }}
+                cypher={cypher}
+                size={table? "medium": "default"}/>
+            </ErrorBoundary>
+          </Grid>
+        ): null}
       </Grid>
     </Card>
   );

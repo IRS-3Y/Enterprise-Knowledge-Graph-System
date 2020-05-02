@@ -21,10 +21,10 @@ export default class SearchService {
     return resp.data;
   }
 
-  searchAction = async (input) => {
+  searchAction = async (input, dialog) => {
     let data = await this.search(input);
     let actions = data.results.filter(r => r.type === 'action');
-    if(!actions.length){
+    if(!actions.length && dialog){
       //retry with dialogflow query
       data = await this.search(input, "/dialog");
       actions = data.results.filter(r => r.type === 'action');

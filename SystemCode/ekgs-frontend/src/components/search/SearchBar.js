@@ -42,10 +42,26 @@ export default function SearchBar({onSearchResult, onClearResult}) {
     }
   };
   const handleChange = (e, value) => {
+    let enter = false;
+    if(e.nativeEvent && e.nativeEvent.type === "keydown"){
+      enter = true;
+    }
     let input = inputRef.current;
-    backend.searchAction({value}).then(result => {
+    backend.searchAction({value}, enter).then(result => {
       if(result && result[0]){
+        input.blur();
         onSearchResult(result);
+      }else if(enter) {
+        onSearchResult([{
+          name: "view",
+          params: {
+            description: [
+              `Sorry, no result has been found for '${value}'.`,
+              "Please try again with other inputs..."
+            ]
+          }
+        }]);
+        input.select();
       }else{
         input.focus();
       }
