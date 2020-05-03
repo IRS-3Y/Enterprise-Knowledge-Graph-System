@@ -10,4 +10,8 @@ public interface FrameworxService {
 	Iterable<Technology> findTechnologyAll();
 	
 	List<FrameworxNode> findNodes(String label);
+	
+	void distributeLoad(String relation, double load, String startNode, String endNode);
+	
+	void computeCost(String relation);
 }

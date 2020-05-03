@@ -1,0 +1,25 @@
+package mtech.irs.ekgs.kie.rules.simulation
+
+import mtech.irs.ekgs.frameworx.model.*
+
+rule "people node cost"
+activation-group "cost"
+salience 10
+dialect "mvel"
+when
+    info : ResourceLoadCostInfo( label == 'People' )
+then
+    info.cost = info.resource + 2 * info.load / info.resource;
+    info.time = info.load + info.load / info.resource;
+end
+
+rule "technology node cost"
+activation-group "cost"
+salience 10
+dialect "mvel"
+when
+    info : ResourceLoadCostInfo( label == 'Technology' )
+then
+    info.cost = 2 * info.resource + info.load / info.resource;
+    info.time = info.load / info.resource;
+end

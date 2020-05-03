@@ -25,6 +25,7 @@ import SearchBar from './components/search/SearchBar';
 import MessageSnackbar from './components/core/MessageSnackbar';
 import GraphView from './views/GraphView';
 import SystemSettings from './views/SystemSettings';
+import ResourceSimulation from './views/ResourceSimulation';
 import config from './config';
 import AppService, {messageQueue} from './services/AppService';
 
@@ -203,11 +204,13 @@ export default function App() {
             {open? toolbarMenu: null}
             <SearchBar onSearchResult={handleSearchResult} onClearResult={handleClearResult}/>
             <div className={classes.toolButtonGroup}>
-              <Tooltip title="Resource Simulation">
-                <IconButton>
-                  <TuneIcon className={classes.white}/>
-                </IconButton>
-              </Tooltip>
+              <Link to="/simulation">
+                <Tooltip title="Resource Simulation">
+                  <IconButton>
+                    <TuneIcon className={classes.white}/>
+                  </IconButton>
+                </Tooltip>
+              </Link>
               <Link to="/settings">
                 <Tooltip title="System Settings">
                   <IconButton>
@@ -255,6 +258,9 @@ export default function App() {
         <main className={clsx(classes.content, {[classes.contentShift]: open})}>
           <div className={classes.drawerHeader} />
           <Switch>
+            <Route path="/simulation">
+              <ResourceSimulation messageQueue={messageQueue}/>
+            </Route>
             <Route path="/settings">
               <SystemSettings messageQueue={messageQueue}/>
             </Route>
