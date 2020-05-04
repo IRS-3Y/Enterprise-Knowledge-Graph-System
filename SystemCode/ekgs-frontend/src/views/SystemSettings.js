@@ -103,7 +103,7 @@ export default function SystemSettings({messageQueue}){
         <Grid item xs={6} md={4} lg={3}>
           <TextField label="Graph Data Host"
             fullWidth variant="filled"
-            helperText="Edit if hostname is different from current page"
+            helperText="Edit if Docker hostname is different from current page"
             value={graphOpts.host} onChange={handleSetGraphHost}/>
         </Grid>
         <Grid item xs={6} md={4} lg={3}>

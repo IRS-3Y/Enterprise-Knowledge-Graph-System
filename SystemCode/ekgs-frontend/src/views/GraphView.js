@@ -62,8 +62,8 @@ export default function GraphView({config = {}, cypher, table, description}) {
                 <TableBody>
                   {table.rows.map((row) => (
                     <TableRow key={row.id}>
-                      {table.columns.map(({name, align}) => (
-                        <TableCell key={name} align={align?align:"left"}>{row[name]}</TableCell>
+                      {table.columns.map(({name, align, dp}) => (
+                        <TableCell key={name} align={align?align:"left"}>{dp? row[name].toFixed(dp): row[name]}</TableCell>
                       ))}
                     </TableRow>
                   ))}

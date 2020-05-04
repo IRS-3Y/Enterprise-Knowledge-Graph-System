@@ -45,6 +45,14 @@ public class FrameworxServiceImpl implements FrameworxService{
 		return frameworxRepository.findNodeByLabel(label);
 	}
 	
+	@Override
+	public double findCurrentLoad(String relation) {
+		final String cypher = 
+				"MATCH (n)-[:" + relation + "]-() " + 
+				"RETURN max(n.load) as load";
+		return graphService.query(cypher, null, "load", Double.class).findFirst().orElse(0d);
+	}
+	
 	@Transactional
 	@Override
 	public void distributeLoad(String relation, double load, String startNode, String endNode) {
@@ -116,7 +124,7 @@ public class FrameworxServiceImpl implements FrameworxService{
 		final String cypher = 
 				"MATCH (n)<-[:" + relation + "]-() " + 
 				"WITH distinct n, labels(n)[0] as l " + 
-				"RETURN ID(n) as id, l as label, n.resource as resource, n.load as load";
+				"RETURN ID(n) as id, n.longName as name, l as label, n.resource as resource, n.loadDistribution as loadWeight, n.load as load";
 		return graphService.query(cypher, null).stream().map(ResourceLoadCostInfo::of);
 	}
 	
@@ -127,5 +135,22 @@ public class FrameworxServiceImpl implements FrameworxService{
 				"SET n.cost = $cost , n.time = $time " +
 				"SET r.relationCost = $cost , r.relationTime = $time ";
 		graphService.query(cypher, Map.of("nodeId", nodeId, "cost", cost, "time", time));
+	}
+
+	@Override
+	public List<ResourceLoadCostInfo> findResourceLoad(String relation) {
+		return findResourceLoadInfo(relation).collect(Collectors.toList());
+	}
+	
+	@Transactional
+	@Override
+	public void updateResourceLoad(List<ResourceLoadCostInfo> records) {
+		records.forEach(info -> {
+			final String cypher = 
+					"MATCH (n) " + 
+					"WHERE ID(n) = $nodeId " + 
+					"SET n.resource = $resource , n.loadDistribution = $loadWeight";
+			graphService.query(cypher, Map.of("nodeId", info.getId(), "resource", info.getResource(), "loadWeight", info.getLoadWeight()));
+		});
 	}
 }

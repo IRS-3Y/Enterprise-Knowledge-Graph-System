@@ -266,7 +266,7 @@ abstract public class Frameworx {
 	
 	public static Map<String, Object> tableInfoForShortestPath(String weightProperty){
 		List<Map<String, Object>> data = GraphUtils.service().query(cypherForShortestPath(weightProperty, true), null);
-		String cost = String.format("%.1f", data.get(data.size() - 1).get("cost"));
+		String cost = String.format("%.2f", data.get(data.size() - 1).get("cost"));
 		
 		List<String> description = Arrays.asList(
 				"The following steps can fulfil the Request-to-Answer process with the "
@@ -279,7 +279,7 @@ abstract public class Frameworx {
 						Map.of("name", "label", "label", "Node Type"),
 						Map.of("name", "name", "label", "Name"),
 						Map.of("name", "longName", "label", "Long Name"),
-						Map.of("name", "cost", "label", "Step Cost", "align", "right"),
+						Map.of("name", "cost", "label", "Step Cost", "align", "right", "dp", 2),
 						Map.of("name", "desc", "label", "Step Description")),
 				"rows", data,
 				"description", description);

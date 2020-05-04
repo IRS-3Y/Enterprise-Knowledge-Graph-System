@@ -83,7 +83,7 @@ export default class MessageSnackbar extends React.Component{
     }
     this.processing = true;
     try{
-      let message = await this.queue.pop();
+      let message = await this.queue.shift();
       if(message){
         if(typeof message === 'string'){
           message = { text: message }

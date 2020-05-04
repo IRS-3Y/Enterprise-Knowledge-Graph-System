@@ -1,5 +1,6 @@
 package mtech.irs.ekgs.web;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mtech.irs.ekgs.frameworx.model.LoadDistributionRequest;
+import mtech.irs.ekgs.frameworx.model.ResourceLoadCostInfo;
 import mtech.irs.ekgs.frameworx.service.FrameworxService;
 
 @RestController
@@ -23,6 +25,22 @@ public class DemoController {
 	@GetMapping("/echo/{msg}")
 	public String echo(@PathVariable String msg) {
 		return msg;
+	}
+	
+	@GetMapping("/resourceload/{relation}")
+	public List<ResourceLoadCostInfo> getResourceLoad(@PathVariable String relation){
+		return frameworx.findResourceLoad(relation);
+	}
+	
+	@PostMapping("/resourceload")
+	public Map<String,Object> postResourceLoad(@RequestBody List<ResourceLoadCostInfo> records){
+		frameworx.updateResourceLoad(records);
+		return Map.of("success", true);
+	}
+	
+	@GetMapping("/currentload/{relation}")
+	public Map<String,Object> currentLoad(@PathVariable String relation){
+		return Map.of("load", frameworx.findCurrentLoad(relation));
 	}
 	
 	@PostMapping("/distload")
