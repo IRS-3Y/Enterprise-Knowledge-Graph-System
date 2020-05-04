@@ -2311,9 +2311,9 @@ _start,_end,type,relationCost,relationTime,relationQuality,processStream,relatio
 641,3554,Request_to_Answer,5,8,Good,Customer Centric end-to-end processes,1,,1
 3561,3562,Request_to_Answer,5,8,Good,Customer Centric end-to-end processes,1,,1
 3555,2178,Request_to_Answer,0,1,Good,Customer Centric end-to-end processes,1,,1
-2178,641,Request_to_Answer,20,1,Good,Customer Centric end-to-end processes,1,,1
-641,3562,Request_to_Answer,0,1,Good,Customer Centric end-to-end processes,1,,1
-3562,620,Request_to_Answer,2,2,Good,Customer Centric end-to-end processes,1,,1
+2178,2179,Request_to_Answer,20,1,Good,Customer Centric end-to-end processes,1,,1
+3335,3562,Request_to_Answer,0,1,Good,Customer Centric end-to-end processes,1,,1
+3562,620,Customer_Survey,2,2,Good,Customer Centric end-to-end processes,1,,1
 2433,2525,Has_Function,10,5,Good,,1,,1
 2285,2526,Has_Function,10,5,Good,,1,,1
 2364,2527,Has_Function,10,5,Good,,1,,1
@@ -3280,14 +3280,14 @@ _start,_end,type,relationCost,relationTime,relationQuality,processStream,relatio
 2372,3540,Has_Function,10,5,Good,,1,,1
 2372,3541,Has_Function,10,5,Good,,1,,1
 3555,3556,Request_to_Answer,2,10,Good,Customer Centric end-to-end processes,1,,1
-3555,3553,Request_to_Answer,10,5,Good,Customer Centric end-to-end processes,1,,1
+3555,3547,Request_to_Answer,10,5,Good,Customer Centric end-to-end processes,1,,1
 3555,3559,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
 3556,3553,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
 3559,3553,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
-3554,3562,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
+3554,3567,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
 3554,3561,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
 3554,3560,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
-3562,3552,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1,,1
+3562,3552,Customer_Survey,2,5,Good,Customer Centric end-to-end processes,1,,1
 3564,3565,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1,,1
 3565,3547,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 3547,3566,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
@@ -3298,7 +3298,7 @@ _start,_end,type,relationCost,relationTime,relationQuality,processStream,relatio
 121,70,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 70,578,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 578,3262,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
-3563,3564,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
+3563,3564,Customer_Survey,2,5,Good,Customer Centric end-to-end processes,1, ,1
 3262,2276,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 2276,2154,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 2154,271,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
@@ -3310,6 +3310,9 @@ _start,_end,type,relationCost,relationTime,relationQuality,processStream,relatio
 3331,3330,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 3330,3340,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
 3340,3563,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
-3563,620,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
-620,3564,Request_Product_Offer,2,5,Good,Customer Centric end-to-end processes,1, ,1
-620,3552,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1, ,1
+3563,620,Customer_Survey,2,5,Good,Customer Centric end-to-end processes,1, ,1
+620,3564,Customer_Survey,2,5,Good,Customer Centric end-to-end processes,1, ,1
+620,3552,Customer_Survey,2,5,Good,Customer Centric end-to-end processes,1, ,1
+3547,3553,Request_to_Answer,10,5,Good,Customer Centric end-to-end processes,1, ,1
+3567,3562,Request_to_Answer,2,5,Good,Customer Centric end-to-end processes,1, ,1
+2179,3335,Request_to_Answer,20,1,Good,Customer Centric end-to-end processes,1, ,1
