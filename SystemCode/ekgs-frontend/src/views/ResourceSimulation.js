@@ -17,14 +17,14 @@ const useStyles = makeStyles(theme => ({
     minHeight: "90vh"
   },
   divider: {
-    margin: theme.spacing(1,0,3,0)
+    margin: theme.spacing(3,0,5,0)
   }
 }));
 
 export default function ResourceSimulation({messageQueue}){
   const classes = useStyles();
 
-  const [load, setLoad] = React.useState(100);
+  const [load, setLoad] = React.useState(10);
   const handleLoadChange = e => {
     setLoad(parseFloat(e.target.value))
   }
@@ -48,11 +48,17 @@ export default function ResourceSimulation({messageQueue}){
       <Divider className={classes.divider}/>
       <Grid container spacing={1}>
         <Grid item xs={12}> 
-          <Typography variant="subtitle1">Load Distribution</Typography>
+          <Typography variant="subtitle1">Load Simulation</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            * Load will be distributed from upstream to downstream based on a ratio (weight) defined by each node's load distribution property.
+          </Typography>
         </Grid>
         <Grid item xs={6} md={4} lg={3}>
           <TextField label="Total Load"
             fullWidth variant="filled"
+            helperText="Customer enquiry rate at starting point of process stream"
             type="number" value={load} onChange={handleLoadChange}/>
         </Grid>
         <Grid item xs={6} md={8} lg={9}/>

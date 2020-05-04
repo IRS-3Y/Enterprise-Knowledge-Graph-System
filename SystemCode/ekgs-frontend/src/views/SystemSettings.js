@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: "90vh"
   },
   divider: {
-    margin: theme.spacing(1,0,3,0)
+    margin: theme.spacing(3,0,5,0)
   },
   success: {
     color: "white",

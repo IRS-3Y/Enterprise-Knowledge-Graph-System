@@ -55,9 +55,7 @@ export default class SearchService {
 
   addHistory = (value) => {
     let history = this.getHistory();
-    if(history.includes(value)){
-      return;
-    }
+    history = history.filter(h => h !== value);
     history.unshift(value);
     history = history.slice(0, 20);
     window.localStorage.setItem('ekgs-search-history', JSON.stringify(history));

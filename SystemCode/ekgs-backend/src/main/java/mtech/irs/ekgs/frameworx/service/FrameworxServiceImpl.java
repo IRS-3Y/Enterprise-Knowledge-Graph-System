@@ -93,7 +93,7 @@ public class FrameworxServiceImpl implements FrameworxService{
 	}
 	
 	protected void resetLoadAll(String relation) {
-		final String cypher = "MATCH (n)-[r:" + relation + "]->() SET n.load = 0.0, r.relationLoad = 0.0";
+		final String cypher = "MATCH (n)-[r:" + relation + "]-() SET n.load = 0.0, r.relationLoad = 0.0";
 		graphService.query(cypher, null);
 	}
 	

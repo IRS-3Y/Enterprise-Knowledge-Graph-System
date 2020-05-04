@@ -253,7 +253,7 @@ abstract public class Frameworx {
 		if(table) {
 			cypher +=
 				"WITH nodeId, cost, algo.asNode(nodeId) as n " +
-				"RETURN nodeId as id, cost, n.name as name, n.longName as longName, n.shortDescription as desc";
+				"RETURN nodeId as id, cost, labels(n)[0] as label, n.name as name, n.longName as longName, n.shortDescription as desc";
 		}else {
 			cypher +=
 				"WITH collect(nodeId) as ids, collect(cost) as weights " +
@@ -276,6 +276,7 @@ abstract public class Frameworx {
 		return Map.of(
 				"columns", Arrays.asList(
 						Map.of("name", "id", "label", "Node ID"),
+						Map.of("name", "label", "label", "Node Type"),
 						Map.of("name", "name", "label", "Name"),
 						Map.of("name", "longName", "label", "Long Name"),
 						Map.of("name", "cost", "label", "Step Cost", "align", "right"),
