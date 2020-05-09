@@ -22,6 +22,11 @@
 ---
 
 ## SECTION 4 : VIDEO OF SYSTEM MODELLING & USE CASE DEMO
+<div align="center">
+  <a href="https://youtu.be/gvstrhI8Fkg">
+    <img src="https://img.youtube.com/vi/gvstrhI8Fkg/0.jpg" alt="EKGS Project Video">
+  </a>
+</div>
 
 ---
 
