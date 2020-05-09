@@ -21,7 +21,7 @@ The biggest highlights of our system are the mature Framework (named FRAMWORX), 
 | Official Full Name  | Student ID (MTech Applicable)  | Work Items (Who Did What) | Email (Optional) |
 | :------------ |:---------------:| :-----| :-----|
 | YU Yu | A0213495A |Overall system implementation and validation, project management and documentation | e0508596@u.nus.edu |
-| YANG Lu Yi | |Overall system design, modelling, use case & algorithm design, system implementation | e0508578@u.nus.edu |
+| YANG Lu Yi | A0213477A |Overall system design, modelling, use case & algorithm design, system implementation | e0508578@u.nus.edu |
 | YIN TianShi | A0213511Y |Overall system design, modelling, technical architecture design, system implementation | e0508612@u.nus.edu |
 
 ---
