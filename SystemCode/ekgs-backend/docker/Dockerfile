@@ -12,4 +12,7 @@ RUN mv ${BASEDIR}/ekgs-backend-*.jar ${BASEDIR}/ekgs-backend.jar
 # copy Dialogflow key
 COPY dialogflow-key.json ${BASEDIR}/
 
+# map configuration folder
+VOLUME /ekgs-config
+
 ENTRYPOINT [ "java", "-jar", "ekgs-backend.jar" ]

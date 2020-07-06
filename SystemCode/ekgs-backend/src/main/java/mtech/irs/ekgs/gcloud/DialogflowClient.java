@@ -27,9 +27,14 @@ public class DialogflowClient {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DialogflowClient.class);
 
-	private String projectId = "ekgs-default";
+	private String projectId;
 	
 	public String getProjectId() {
+		if(projectId == null) {
+			GoogleAppCredential gAppInfo = GoogleAppCredential.load();
+			Assert.hasLength(gAppInfo.getProjectId(), "project_id cannot be empty");
+			projectId = gAppInfo.getProjectId();
+		}
 		return projectId;
 	}
 	public void setProjectId(String projectId) {
@@ -47,7 +52,7 @@ public class DialogflowClient {
 		try (SessionsClient sessionsClient = SessionsClient.create()) {
 			
 			// Set the session name using the sessionId (UUID) and projectID (my-project-id)
-			SessionName session = SessionName.of(projectId, sessionId);
+			SessionName session = SessionName.of(getProjectId(), sessionId);
 			logger.debug("Session Path: " + session.toString());
 
 			// Set the text (hello) and language code (en-US) for the query

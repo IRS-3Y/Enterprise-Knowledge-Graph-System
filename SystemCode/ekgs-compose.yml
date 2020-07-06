@@ -5,6 +5,8 @@ volumes:
     external: false
   neo4j_logs:
     external: false
+  ekgs_config:
+    external: false
 
 services:
   frontend:
@@ -17,6 +19,9 @@ services:
     image: "irs3y/ekgs-backend"
     environment:
       - "spring_profiles_active=docker"
+      - "GOOGLE_APPLICATION_CREDENTIALS=/ekgs/dialogflow-key.json"
+    volumes:
+      - ekgs_config:/ekgs-config
     depends_on:
       - graphdata
   graphdata:
